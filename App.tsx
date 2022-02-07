@@ -1,22 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
+import { ScrollView ,View, Text, Dimensions } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import React from 'react';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import Home from './src/components/home';
+import Login from './src/components/login';
+import Register from './src/components/register';
+
+// import Navigation from './navigation';
+
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+	
+	return (
+		
 
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
-    );
-  }
+		
+		<ScrollView>
+			<Register />
+		</ScrollView>
+		
+		
+	);
+
 }
