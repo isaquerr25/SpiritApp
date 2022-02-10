@@ -24,7 +24,7 @@ const Register = () => {
 			<Input  placeholder='Password'/>
 			<Input  placeholder='Confirm Password'/>
 
-			<Button  type='transparent' borderCo='primary'  >
+			<Button  type='transparent' borderCo='primary' radius='15px' >
 				<ButtonText color='whiteT'>Register</ButtonText>
 			</Button>
 		</Container>

@@ -24,9 +24,9 @@ const Login = () => {
 				
 			</Container>
 			<Spacer height={40}/>
-			<Button marginD={15}>
-				<ButtonText>Login</ButtonText>
-			</Button>
+			<Button radius='15px' marginD={15}>
+				<ButtonText >Login</ButtonText>
+			</Button >
 			
 		</Container>
 	);

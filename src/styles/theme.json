@@ -8,8 +8,10 @@
         "dark":     "#32353d",
         "black": "#000",
         "grayW": "#EDEDED",
+        "muted": "#d9d9d9",
         "muted50": "#F4F4F4",
         "bottonL": "#d9d9d9",
-        "transparent": "#FF655000"
+        "transparent": "#FF655000",
+        "grayN":"#C4C4C4"
     }
 }
