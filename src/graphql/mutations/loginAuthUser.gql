@@ -1,0 +1,27 @@
+mutation LoginAuthUser($email:String!,$password:String!){
+  LoginAuthUser(data:{
+    email:$email 
+    password:$password    
+  }){
+    errors {
+      field
+      message
+    }
+    user {
+      email
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

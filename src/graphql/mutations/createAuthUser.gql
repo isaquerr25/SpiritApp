@@ -1,0 +1,20 @@
+
+mutation  CreateAuthUser($email:String!,$password:String!,$firstName:String!,$lastName:String!,$dateJoined:String!,$username:String!){
+  createAuthUser(data: {
+    password:$password
+    lastName:$lastName 
+    email:$email 
+    username:$username
+    firstName:$firstName
+    dateJoined:$dateJoined
+    isSuperuser:false
+    isStaff:false
+    isActive:false
+  }) {
+    __typename
+    errors {
+      field
+      message
+    }
+  }
+} 
