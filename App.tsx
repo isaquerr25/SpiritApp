@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import React from 'react';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
+
 import Home from './src/components/home';
 import Login from './src/components/login';
 import Register from './src/components/register';
@@ -21,6 +22,8 @@ import RecuperationPassword from './src/components/recuperationPassword';
 import InviteFriend from './src/components/inviteFriend';
 import PanelBonus from './src/components/panelBonus';
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
+import navigation from './navigation';
+import Navigation from './navigation';
 
 
 
@@ -45,7 +48,7 @@ export default function App() {
 
 		<ApolloProvider client={client} > 
 			<ScrollView>
-				<Login />
+				<Navigation/>
 			</ScrollView>
 		</ApolloProvider>
 		

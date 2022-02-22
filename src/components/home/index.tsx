@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, Dimensions } from 'react-native';
 
 import {Container , Button, ButtonText, LogoImgae,Title} from '../../styles';
 import logo_spirit from '../../assets/logo_spirit.png';
-const Home = () => {
+const Home = ({navigation}) => {
 	
 	const ScreenHeight = Dimensions.get('window').height;
       
@@ -17,11 +17,13 @@ const Home = () => {
 			/>
 			
 			
-			<Button marginD={15} radius='15px' >
+			<Button marginD={15} radius='15px' onPress={() =>{navigation.navigate('Login');}}>
 				<ButtonText>Login</ButtonText>
 			</Button>
 			
-			<Button type='transparent' borderCo='primary' radius='15px' >
+			<Button type='transparent' borderCo='primary' radius='15px' 
+				onPress={() =>{navigation.navigate('Register');}}
+			>
 				<ButtonText color='whiteT'>Register</ButtonText>
 			</Button>
 			

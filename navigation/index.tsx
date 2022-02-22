@@ -1,107 +1,63 @@
-// /**
-//  * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
-//  * https://reactnavigation.org/docs/getting-started
-//  *
-//  */
-// import { FontAwesome } from '@expo/vector-icons';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import * as React from 'react';
-// import { ColorSchemeName, Pressable } from 'react-native';
+import * as React from 'react';
 
-// import Colors from '../constants/Colors';
-// import useColorScheme from '../hooks/useColorScheme';
-// import ModalScreen from '../screens/ModalScreen';
-// import NotFoundScreen from '../screens/NotFoundScreen';
-// import TabOneScreen from '../screens/TabOneScreen';
-// import TabTwoScreen from '../screens/TabTwoScreen';
-// import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-// import LinkingConfiguration from './LinkingConfiguration';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { resolveUri } from 'expo-asset/build/AssetSources';
 
-// export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-//   return (
-//     <NavigationContainer
-//       linking={LinkingConfiguration}
-//       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-//       <RootNavigator />
-//     </NavigationContainer>
-//   );
-// }
 
-// /**
-//  * A root stack navigator is often used for displaying modals on top of all other content.
-//  * https://reactnavigation.org/docs/modal
-//  */
-// const Stack = createNativeStackNavigator<RootStackParamList>();
+import ConfigProfile from '../src/components/configProfile';
+import Dashboard from '../src/components/dashboard';
+import Home from '../src/components/home';
+import InviteFriend from '../src/components/inviteFriend';
+import Login from '../src/components/login';
+import PagamentoCiclos from '../src/components/pagamentoCiclos';
+import PanelBonus from '../src/components/panelBonus';
+import Profile from '../src/components/profile';
+import ConfirmCode from '../src/components/recuperationAccount/confirmCode';
+import RestartPassword from '../src/components/recuperationAccount/restartPassword';
+import SendEmail from '../src/components/recuperationAccount/sendEmail';
+import RecuperationPassword from '../src/components/recuperationPassword';
+import Register from '../src/components/register';
+import RegisterAccountForex from '../src/components/registerAccountForex';
+import UpdateAccount from '../src/components/updateAccount';
+import Notification from '../src/components/notification';
 
-// function RootNavigator() {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-//       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-//       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-//         <Stack.Screen name="Modal" component={ModalScreen} />
-//       </Stack.Group>
-//     </Stack.Navigator>
-//   );
-// }
 
-// /**
-//  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
-//  * https://reactnavigation.org/docs/bottom-tab-navigator
-//  */
-// const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-// function BottomTabNavigator() {
-//   const colorScheme = useColorScheme();
 
-//   return (
-//     <BottomTab.Navigator
-//       initialRouteName="TabOne"
-//       screenOptions={{
-//         tabBarActiveTintColor: Colors[colorScheme].tint,
-//       }}>
-//       <BottomTab.Screen
-//         name="TabOne"
-//         component={TabOneScreen}
-//         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-//           title: 'Tab One',
-//           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-//           headerRight: () => (
-//             <Pressable
-//               onPress={() => navigation.navigate('Modal')}
-//               style={({ pressed }) => ({
-//                 opacity: pressed ? 0.5 : 1,
-//               })}>
-//               <FontAwesome
-//                 name="info-circle"
-//                 size={25}
-//                 color={Colors[colorScheme].text}
-//                 style={{ marginRight: 15 }}
-//               />
-//             </Pressable>
-//           ),
-//         })}
-//       />
-//       <BottomTab.Screen
-//         name="TabTwo"
-//         component={TabTwoScreen}
-//         options={{
-//           title: 'Tab Two',
-//           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-//         }}
-//       />
-//     </BottomTab.Navigator>
-//   );
-// }
 
-// /**
-//  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-//  */
-// function TabBarIcon(props: {
-//   name: React.ComponentProps<typeof FontAwesome>['name'];
-//   color: string;
-// }) {
-//   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-// }
+
+
+
+
+
+const Stack = createNativeStackNavigator();
+
+
+export default () => {
+	return(
+		<NavigationContainer>
+			<Stack.Navigator>
+                
+				<Stack.Screen name="Home" component={Home} />
+				<Stack.Screen name="Login" component={Login} />
+				<Stack.Screen name="Register" component={Register} />
+				<Stack.Screen name="SendEmail" component={SendEmail} />
+				<Stack.Screen name="ConfirmCode" component={ConfirmCode} />
+				<Stack.Screen name="RestartPassword" component={RestartPassword} />
+				<Stack.Screen name="Dashboard" component={Dashboard} />
+				<Stack.Screen name="UpdateAccount" component={UpdateAccount} />
+				<Stack.Screen name="RegisterAccountForex" component={RegisterAccountForex} />
+				<Stack.Screen name="Notification" component={Notification} />
+				<Stack.Screen name="PagamentoCiclos" component={PagamentoCiclos} />
+				<Stack.Screen name="ConfigProfile" component={ConfigProfile} />
+				<Stack.Screen name="Profile" component={Profile} />
+				<Stack.Screen name="RecuperationPassword" component={RecuperationPassword} />
+				<Stack.Screen name="InviteFriend" component={InviteFriend} />
+				<Stack.Screen name="PanelBonus" component={PanelBonus} />
+
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
+};
