@@ -3,6 +3,7 @@ import { View, Image, StyleSheet, Dimensions } from 'react-native';
 
 import {Container , Button, ButtonText, LogoImgae,Title} from '../../styles';
 import logo_spirit from '../../assets/logo_spirit.png';
+
 const Home = ({navigation}) => {
 	
 	const ScreenHeight = Dimensions.get('window').height;

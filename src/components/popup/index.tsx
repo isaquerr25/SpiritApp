@@ -11,7 +11,12 @@ import {
 } from 'react-native';
 import Icon  from 'react-native-vector-icons/FontAwesome';
 
-
+type data = {
+	type:string
+	msg:string
+	visible?:boolean
+	children?:string
+}
 const ModalPoup = ({visible, children}) => {
 	const [showModal, setShowModal] = React.useState(visible);
 	const scaleValue = React.useRef(new Animated.Value(0)).current;
@@ -36,39 +41,36 @@ const ModalPoup = ({visible, children}) => {
 		}
 	};
 	return (
-		<Modal transparent visible={showModal}>
-			<View style={styles.modalBackGround}>
-				<Animated.View
-					style={[styles.modalContainer, {transform: [{scale: scaleValue}]}]}>
-					{children}
-				</Animated.View>
-			</View>
-		</Modal>
+
+		<View style={styles.modalBackGround}>
+			<Animated.View
+				style={[styles.modalContainer, {transform: [{scale: scaleValue}]}]}>
+				{children}
+			</Animated.View>
+		</View>
+	
 	);
 };
 
-export const SimplePopUp = ({type,msg}) => {
-	return (
+export const SimplePopUp:React.FC<data> = ({type,msg}) => {
 	
+
+	return (
 
 		<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
 		
 			<ModalPoup visible={true}>
 				<View style={{alignItems: 'center'}}>
-					<View style={styles.header}>
-						<TouchableOpacity >
-							<Icon name="remove" size={40} color="#fffff" />
-
-						</TouchableOpacity>
-					</View>
+					
 				</View>
 				<View style={{alignItems: 'center'}}>
-					<Icon name="check" size={100} color="#00FF00" />
+					{type=='error' && <Icon name="remove" size={100} color="#ff0000" />}
+					{type!='error' && <Icon name="check" size={100} color="#00FF00" />}
 
 				</View>
 
 				<Text style={{marginVertical: 30, fontSize: 20, textAlign: 'center'}}>
-					Congratulations registration was successful
+					{msg}
 				</Text>
 			</ModalPoup>
 		</View>
@@ -79,13 +81,14 @@ export const SimplePopUp = ({type,msg}) => {
 const styles = StyleSheet.create({
 	modalBackGround: {
 		flex: 1,
-		backgroundColor: 'rgba(0,0,0,0.5)',
+		backgroundColor: 'transparent',
 		justifyContent: 'center',
 		alignItems: 'center',
+		width: '100%',
 	},
 	modalContainer: {
 		width: '80%',
-		backgroundColor: 'white',
+		backgroundColor: '#fcfcfcf0',
 		paddingHorizontal: 20,
 		paddingVertical: 30,
 		borderRadius: 20,

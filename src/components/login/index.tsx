@@ -7,12 +7,18 @@ import logo_spirit from '../../assets/logo_spirit.png';
 import { useCreateAuthUserMutation, useLoginAuthUserMutation } from '../../generated/graphql';
 import { Formik } from 'formik';
 import { SimplePopUp } from '../popup';
+import 'react-native-gesture-handler';
 
 
 
 const Login = ({navigation}) => {
-
-	const [popup,setPopup] = useState(false);
+	enum statePopup {
+		disable,
+		error,
+		access
+	}
+	const [popup,setPopup] = useState<statePopup>(0);
+	const [erroMsg,setErroMsg] = useState('');
 
 	const [qglLogin,login] = useLoginAuthUserMutation();
 	
@@ -22,12 +28,18 @@ const Login = ({navigation}) => {
 		
 		<Container color='ground' padding={30} justify='flex-start' height={ScreenHeight} >
 
-			{popup &&
-					<TouchableOpacity onPress={() => setPopup(false)}>
-						<SimplePopUp type ='error' msg='adsdasd'/>
+			{popup==statePopup.error &&
+					<TouchableOpacity style={styles.button} onPress={() => setPopup(statePopup.disable)}>
+						
+						<SimplePopUp type ='error' msg={erroMsg}/>
 					</TouchableOpacity>
 			}
 
+			{popup==statePopup.access &&
+					<TouchableOpacity onPress={() => setPopup(statePopup.disable)}>
+						<SimplePopUp type ='accest' msg='Loading'/>
+					</TouchableOpacity>
+			}
 			
 			<Image
 				style={LogoImgae.logo}
@@ -36,7 +48,7 @@ const Login = ({navigation}) => {
 			/>
 			<Formik
 				initialValues={{ email: '',password:'' }}
-				// onSubmit={values => qglLogin.(values)}
+				// onSubmit={values => qglLogin(values)}
 
 				onSubmit={async (values, { setSubmitting }) => {
 					setSubmitting(true);
@@ -45,14 +57,15 @@ const Login = ({navigation}) => {
 					const result = await qglLogin({variables: values});
 					console.log(result);
 					const errors = result.data?.LoginAuthUser.errors;
+					console.log('errordasdasdass',errors);
 					console.log('errors',errors?.length ==0);
 					if (errors?.length ==0){
 						navigation.navigate('Dashboard');
-						setPopup(false);
+						setPopup(statePopup.access);
 					}
 					else{
-						setPopup(true);
-
+						setPopup(statePopup.error);
+						setErroMsg(errors[0].message);
 						console.log('não logou');
 					}
 					
@@ -98,6 +111,26 @@ const Login = ({navigation}) => {
 	);
 };
 
-
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		paddingHorizontal: 10
+	},
+	button: {
+		flex: 1,
+		alignSelf: 'center',
+		resizeMode: 'cover',
+		alignItems: 'center',
+		backgroundColor: '#0000006e',
+		top : 0, left : 0, right : 0,bottom : 0,
+		zIndex:9999999,
+		position:'absolute'
+	},
+	countContainer: {
+		alignItems: 'center',
+		padding: 10
+	}
+});
 
 export default Login;

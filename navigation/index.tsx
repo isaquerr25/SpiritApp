@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 
-import { View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { View, Text, SafeAreaView } from 'react-native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { resolveUri } from 'expo-asset/build/AssetSources';
 
@@ -22,42 +22,70 @@ import Register from '../src/components/register';
 import RegisterAccountForex from '../src/components/registerAccountForex';
 import UpdateAccount from '../src/components/updateAccount';
 import Notification from '../src/components/notification';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import { createStackNavigator } from '@react-navigation/stack';
+import { enableScreens } from 'react-native-screens';
+const screens  = {
+	Home: {
+		screen: Home
+	},
 
-
-
-
-
-
-
-
-
-
-const Stack = createNativeStackNavigator();
-
-
-export default () => {
-	return(
-		<NavigationContainer>
-			<Stack.Navigator>
-                
-				<Stack.Screen name="Home" component={Home} />
-				<Stack.Screen name="Login" component={Login} />
-				<Stack.Screen name="Register" component={Register} />
-				<Stack.Screen name="SendEmail" component={SendEmail} />
-				<Stack.Screen name="ConfirmCode" component={ConfirmCode} />
-				<Stack.Screen name="RestartPassword" component={RestartPassword} />
-				<Stack.Screen name="Dashboard" component={Dashboard} />
-				<Stack.Screen name="UpdateAccount" component={UpdateAccount} />
-				<Stack.Screen name="RegisterAccountForex" component={RegisterAccountForex} />
-				<Stack.Screen name="Notification" component={Notification} />
-				<Stack.Screen name="PagamentoCiclos" component={PagamentoCiclos} />
-				<Stack.Screen name="ConfigProfile" component={ConfigProfile} />
-				<Stack.Screen name="Profile" component={Profile} />
-				<Stack.Screen name="RecuperationPassword" component={RecuperationPassword} />
-				<Stack.Screen name="InviteFriend" component={InviteFriend} />
-				<Stack.Screen name="PanelBonus" component={PanelBonus} />
-
-			</Stack.Navigator>
-		</NavigationContainer>
-	);
 };
+
+
+
+
+
+enableScreens();
+
+// const HomeStack = createStackNavigator(screens);
+const Stack = createStackNavigator();
+
+const AppNavigator = createSwitchNavigator({
+	Home: Home,
+	ConfigProfile: ConfigProfile,
+	Dashboard: Dashboard,
+	InviteFriend: InviteFriend,
+	Login: Login,
+	PagamentoCiclos: PagamentoCiclos,
+	PanelBonus: PanelBonus,
+	Profile: Profile,
+	ConfirmCode: ConfirmCode,
+	HomRestartPassworde: RestartPassword,
+	SendEmail: SendEmail,
+	RecuperationPassword: RecuperationPassword,
+	Register: Register,
+	RegisterAccountForex: RegisterAccountForex,
+	UpdateAccount: UpdateAccount,
+	Notification: Notification
+});
+  
+export default  createAppContainer(AppNavigator);
+// export default () => {
+// 	return(
+	
+// 		<NavigationContainer >
+// 			<Stack.Navigator  >
+                
+// 				<Stack.Screen name="Home" component={Home} options={{title: 'Overview'}}/>
+// 				<Stack.Screen name="Login" component={Login} />
+// 				<Stack.Screen name="Register" component={Register} />
+// 				<Stack.Screen name="SendEmail" component={SendEmail} />
+// 				<Stack.Screen name="ConfirmCode" component={ConfirmCode} />
+// 				<Stack.Screen name="RestartPassword" component={RestartPassword} />
+// 				<Stack.Screen name="Dashboard" component={Dashboard} />
+// 				<Stack.Screen name="UpdateAccount" component={UpdateAccount} />
+// 				<Stack.Screen name="RegisterAccountForex" component={RegisterAccountForex} />
+// 				<Stack.Screen name="Notification" component={Notification} />
+// 				<Stack.Screen name="PagamentoCiclos" component={PagamentoCiclos} />
+// 				<Stack.Screen name="ConfigProfile" component={ConfigProfile} />
+// 				<Stack.Screen name="Profile" component={Profile} />
+// 				<Stack.Screen name="RecuperationPassword" component={RecuperationPassword} />
+// 				<Stack.Screen name="InviteFriend" component={InviteFriend} />
+// 				<Stack.Screen name="PanelBonus" component={PanelBonus} />
+
+// 			</Stack.Navigator>
+// 		</NavigationContainer>
+
+// 	);
+// };
