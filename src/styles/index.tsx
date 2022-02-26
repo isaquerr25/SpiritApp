@@ -2,7 +2,6 @@ import styled from 'styled-components/native';
 import theme from './theme.json';
 import background from '../assets/background.png';
 
-
 import { ImageBackground, StyleSheet, Text, View, Dimensions } from 'react-native';
 
 const image = { uri: 'https://reactjs.org/logo-og.png' };

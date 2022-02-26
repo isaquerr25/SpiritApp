@@ -3,11 +3,11 @@
 import {Container ,AddressItem , Button, ButtonText, ButtonIcon,VerticalSeparator, LogoImgae,Spacer , Input,SubTitle, ContainerMax} from '../../styles';
 import Icon  from 'react-native-vector-icons/FontAwesome';
 
-export const NameBackTop = ({titleName}) =>{
+export const NameBackTop = ({titleName,navigation,destiny }) =>{
 	return(
 		<Container height={50}  row  >
 			<ContainerMax position='absolute' align='flex-start'>
-				<ButtonIcon  type='transparent' radius='15px'  >
+				<ButtonIcon  onPress={() =>{navigation.navigate(destiny);}} type='transparent' radius='15px'  >
 					<Icon name="angle-left" size={30} color="#F4F4F4" />
 				</ButtonIcon>
 			</ContainerMax>
