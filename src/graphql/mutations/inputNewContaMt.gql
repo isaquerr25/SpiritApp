@@ -1,0 +1,17 @@
+mutation InputNewContaMt($attributesMeta:String!,$afiliadoId:Int!,$conta:Int!,$investAberturaInit:Float!,$password:String!,$serverMetaTrader:String!){
+  inputNewContaMt(data:{
+    conta:$conta
+    investAberturaInit:$investAberturaInit
+    password:$password
+    serverMetaTrader:$serverMetaTrader
+    attributesMeta:$attributesMeta
+    dataCriacao:"12/15/45"
+    serverVps:"default"
+    typeRisc:"baixo"
+    work:"notwork"
+    userClientId:4
+    afiliadoId:$afiliadoId
+  }) {
+    error
+  }
+}

@@ -31,9 +31,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 // import Navigation from './navigation';
 const link = createHttpLink({
-	// uri: 'http://localhost:4000/graphql',
+	//uri: 'http://localhost:4000/graphql',
 	uri: 'http://192.168.1.66:4000/graphql' ,
-	
 	credentials: 'include'
 });
   

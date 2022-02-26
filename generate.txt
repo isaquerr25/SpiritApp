@@ -1,0 +1,10 @@
+access-token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY0NTc1NDkwNn0.PuWEtgoQxaYO_CLf5loOFjjm0YOZ0a9cQmsFqGbV7hc"
+
+
+query GetContasMtAuth {
+  GetContasMtAuth {
+    conta
+    work
+    investAtual
+  }
+}

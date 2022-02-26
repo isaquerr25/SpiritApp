@@ -47,7 +47,7 @@ const Login = ({navigation}) => {
 				resizeMode="contain"
 			/>
 			<Formik
-				initialValues={{ email: '',password:'' }}
+				initialValues={{ email: 'Test@test.cs',password:'Testee@5' }}
 				// onSubmit={values => qglLogin(values)}
 
 				onSubmit={async (values, { setSubmitting }) => {
@@ -76,34 +76,35 @@ const Login = ({navigation}) => {
 					// } else {
 					//   navigate('/', { replace: true });
 					// }
-				 }}
+				}}
 			>
 				
 				{({ handleChange, handleBlur, handleSubmit, values }) => (
-					<><Container justify="space-between" height={150}>
+					<>
+						<Container justify="space-between" height={150}>
 
-						<Input
-							onChangeText={handleChange('email')}
-							onBlur={handleBlur('email')}
-							value={values.email}
-							placeholder='Email' />
+							<Input
+								onChangeText={handleChange('email')}
+								onBlur={handleBlur('email')}
+								value={values.email}
+								placeholder='Email' />
 
 
-						<Input
-							onChangeText={handleChange('password')}
-							onBlur={handleBlur('password')}
-							value={values.password}
-							placeholder='Password' />
+							<Input
+								onChangeText={handleChange('password')}
+								onBlur={handleBlur('password')}
+								value={values.password}
+								placeholder='Password' />
 
-						<SubTitle textL>Esqueci minha senha.</SubTitle>
+							<SubTitle textL>Esqueci minha senha.</SubTitle>
 
-					</Container>
+						</Container>
 
-					<Spacer height={40} />
+						<Spacer height={40} />
 
-					<Button onPress={handleSubmit} radius='15px' marginD={15}>
-						<ButtonText>Login</ButtonText>
-					</Button>
+						<Button onPress={handleSubmit} radius='15px' marginD={15}>
+							<ButtonText>Login</ButtonText>
+						</Button>
 					</>
 				)}
 			</Formik>

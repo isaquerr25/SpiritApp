@@ -1,0 +1,8 @@
+mutation GetContasMtAuth{
+  GetContasMtAuth {
+    id
+    conta
+    work
+    investAtual
+  }
+}

@@ -15,10 +15,43 @@ export type Scalars = {
   Float: number;
 };
 
+export type AuthGroup = {
+  __typename?: 'AuthGroup';
+  authGroupPermissions: AuthGroupPermissions;
+  authUserGroups: AuthUserGroups;
+  id: Scalars['Float'];
+  name: Scalars['String'];
+};
+
+export type AuthGroupPermissions = {
+  __typename?: 'AuthGroupPermissions';
+  group: AuthGroup;
+  groupId: Scalars['Float'];
+  id: Scalars['Float'];
+  permission: AuthPermission;
+  permissionId: Scalars['Float'];
+};
+
+export type AuthPermission = {
+  __typename?: 'AuthPermission';
+  authGroupPermissions: Scalars['String'];
+  authUserUserPermissions: AuthUserUserPermissions;
+  codename: Scalars['String'];
+  contentType: DjangoContentType;
+  contentTypeId: Scalars['Float'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
 export type AuthUser = {
   __typename?: 'AuthUser';
+  authUserGroups: AuthUserGroups;
+  authUserUserPermissions: AuthUserUserPermissions;
+  contasMts?: Maybe<ContasMt>;
+  contasMts2?: Maybe<ContasMt>;
   dateJoined: Scalars['String'];
   email: Scalars['String'];
+  extendUserUserextend: ExtendUserUserextend;
   firstName: Scalars['String'];
   id: Scalars['Int'];
   isActive: Scalars['Boolean'];
@@ -27,8 +60,49 @@ export type AuthUser = {
   lastLogin: Scalars['String'];
   lastName: Scalars['String'];
   password: Scalars['String'];
-  userappUserappmodel: UserappUserappmodel;
   username: Scalars['String'];
+};
+
+export type AuthUserGroups = {
+  __typename?: 'AuthUserGroups';
+  group: AuthGroup;
+  groupId: Scalars['Float'];
+  id: Scalars['Int'];
+  user: AuthUser;
+  userId: Scalars['Float'];
+};
+
+export type AuthUserUserPermissions = {
+  __typename?: 'AuthUserUserPermissions';
+  id: Scalars['Int'];
+  permission: AuthPermission;
+  permissionId: Scalars['String'];
+  user: AuthUser;
+  userId: Scalars['Float'];
+};
+
+export type ContasMt = {
+  __typename?: 'ContasMt';
+  afiliado?: Maybe<AuthUser>;
+  afiliadoId: Scalars['Int'];
+  attributesMeta: Scalars['String'];
+  conta: Scalars['Int'];
+  dataAtualizacao: Scalars['String'];
+  dataCriacao: Scalars['String'];
+  dataValidade: Scalars['String'];
+  faturasSpirits: FaturasSpirit;
+  id: Scalars['Int'];
+  investAberturaInit: Scalars['Float'];
+  investAtual: Scalars['Float'];
+  lucroAtual: Scalars['Float'];
+  ordensCorrentMds: OrdensCorrentMd;
+  password: Scalars['String'];
+  serverMetaTrader: Scalars['String'];
+  serverVps: Scalars['String'];
+  typeRisc: Scalars['String'];
+  userClient?: Maybe<AuthUser>;
+  userClientId: Scalars['Int'];
+  work: Scalars['String'];
 };
 
 export type CreateAuthUser = {
@@ -43,28 +117,60 @@ export type CreateAuthUser = {
   username: Scalars['String'];
 };
 
-export type CreateSinalTelegram = {
-  abertura: Scalars['String'];
-  dataBorn: Scalars['String'];
-  dataCriacao: Scalars['String'];
-  dataFechamento?: InputMaybe<Scalars['String']>;
-  direcao: Scalars['String'];
-  idTelegram: Scalars['String'];
-  local: Scalars['String'];
-  numLoss: Scalars['Int'];
-  numWin: Scalars['String'];
-  par: Scalars['String'];
-  preco: Scalars['String'];
-  status: Scalars['String'];
-  stopLoss: Scalars['String'];
-  stopWin: Scalars['String'];
-  ticket: Scalars['String'];
+export type DjangoContentType = {
+  __typename?: 'DjangoContentType';
+  appLabel: Scalars['String'];
+  authPermissions: Scalars['String'];
+  djangoAdminLogs: Scalars['String'];
+  id: Scalars['Int'];
+  model: Scalars['String'];
 };
 
 export type ErrorType = {
   __typename?: 'ErrorType';
   field: Scalars['String'];
   message: Scalars['String'];
+};
+
+export type ExtendUserUserextend = {
+  __typename?: 'ExtendUserUserextend';
+  address: Scalars['String'];
+  id: Scalars['Int'];
+  phoneNumber: Scalars['String'];
+  profileImage: Scalars['String'];
+  user: Scalars['String'];
+};
+
+export type FaturasSpirit = {
+  __typename?: 'FaturasSpirit';
+  conta: Scalars['String'];
+  contaId: Scalars['Float'];
+  dataCriacao: Scalars['String'];
+  dataFechamento: Scalars['String'];
+  dataInicio: Scalars['String'];
+  id: Scalars['Int'];
+  status: Scalars['String'];
+  titulo: Scalars['Float'];
+  valor: Scalars['Float'];
+};
+
+export type GetConta = {
+  __typename?: 'GetConta';
+  error?: Maybe<Scalars['String']>;
+};
+
+export type InputConta = {
+  afiliadoId: Scalars['Int'];
+  attributesMeta: Scalars['String'];
+  conta: Scalars['Int'];
+  dataCriacao: Scalars['String'];
+  investAberturaInit: Scalars['Float'];
+  password: Scalars['String'];
+  serverMetaTrader: Scalars['String'];
+  serverVps: Scalars['String'];
+  typeRisc: Scalars['String'];
+  userClientId: Scalars['Int'];
+  work: Scalars['String'];
 };
 
 export type InputLoginAuthUser = {
@@ -74,9 +180,10 @@ export type InputLoginAuthUser = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  GetContasMtAuth: Array<ContasMt>;
   LoginAuthUser: UserTypeModel;
   createAuthUser: UserTypeModel;
-  createSinalTelegram: SinalTelegram;
+  inputNewContaMt: GetConta;
 };
 
 
@@ -90,48 +197,37 @@ export type MutationCreateAuthUserArgs = {
 };
 
 
-export type MutationCreateSinalTelegramArgs = {
-  data: CreateSinalTelegram;
+export type MutationInputNewContaMtArgs = {
+  data: InputConta;
+};
+
+export type OrdensCorrentMd = {
+  __typename?: 'OrdensCorrentMd';
+  abertura: Scalars['String'];
+  conta: ContasMt;
+  contaId: Scalars['String'];
+  dataAtualizacao: Scalars['String'];
+  dataCriacao: Scalars['String'];
+  direcao: Scalars['String'];
+  id: Scalars['Float'];
+  lots: Scalars['String'];
+  par: Scalars['String'];
+  status: Scalars['String'];
+  ticket: Scalars['String'];
+  ticketReference: Scalars['String'];
+  type: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  GetContasMt: Array<ContasMt>;
   GetUserResolver: Array<AuthUser>;
-  books: Array<SinalTelegram>;
-};
-
-export type SinalTelegram = {
-  __typename?: 'SinalTelegram';
-  abertura: Scalars['String'];
-  dataBorn: Scalars['String'];
-  dataCriacao: Scalars['String'];
-  dataFechamento?: Maybe<Scalars['String']>;
-  direcao: Scalars['String'];
-  id: Scalars['Int'];
-  idTelegram: Scalars['String'];
-  local: Scalars['String'];
-  numLoss: Scalars['Int'];
-  numWin: Scalars['String'];
-  par: Scalars['String'];
-  preco: Scalars['String'];
-  status: Scalars['String'];
-  stopLoss: Scalars['String'];
-  stopWin: Scalars['String'];
-  ticket: Scalars['String'];
 };
 
 export type UserTypeModel = {
   __typename?: 'UserTypeModel';
   errors?: Maybe<Array<ErrorType>>;
   user?: Maybe<AuthUser>;
-};
-
-export type UserappUserappmodel = {
-  __typename?: 'UserappUserappmodel';
-  cpf: Scalars['String'];
-  id: Scalars['Int'];
-  owner: Scalars['Int'];
-  profileImage: Scalars['String'];
 };
 
 export type CreateAuthUserMutationVariables = Exact<{
@@ -146,6 +242,23 @@ export type CreateAuthUserMutationVariables = Exact<{
 
 export type CreateAuthUserMutation = { __typename?: 'Mutation', createAuthUser: { __typename: 'UserTypeModel', errors?: Array<{ __typename?: 'ErrorType', field: string, message: string }> | null } };
 
+export type GetContasMtAuthMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetContasMtAuthMutation = { __typename?: 'Mutation', GetContasMtAuth: Array<{ __typename?: 'ContasMt', id: number, conta: number, work: string, investAtual: number }> };
+
+export type InputNewContaMtMutationVariables = Exact<{
+  attributesMeta: Scalars['String'];
+  afiliadoId: Scalars['Int'];
+  conta: Scalars['Int'];
+  investAberturaInit: Scalars['Float'];
+  password: Scalars['String'];
+  serverMetaTrader: Scalars['String'];
+}>;
+
+
+export type InputNewContaMtMutation = { __typename?: 'Mutation', inputNewContaMt: { __typename?: 'GetConta', error?: string | null } };
+
 export type LoginAuthUserMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -153,11 +266,6 @@ export type LoginAuthUserMutationVariables = Exact<{
 
 
 export type LoginAuthUserMutation = { __typename?: 'Mutation', LoginAuthUser: { __typename?: 'UserTypeModel', errors?: Array<{ __typename?: 'ErrorType', field: string, message: string }> | null, user?: { __typename?: 'AuthUser', email: string } | null } };
-
-export type SinalTelegramQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SinalTelegramQuery = { __typename?: 'Query', GetUserResolver: Array<{ __typename?: 'AuthUser', username: string, lastName: string, email: string, password: string }> };
 
 
 export const CreateAuthUserDocument = gql`
@@ -204,6 +312,81 @@ export function useCreateAuthUserMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateAuthUserMutationHookResult = ReturnType<typeof useCreateAuthUserMutation>;
 export type CreateAuthUserMutationResult = Apollo.MutationResult<CreateAuthUserMutation>;
 export type CreateAuthUserMutationOptions = Apollo.BaseMutationOptions<CreateAuthUserMutation, CreateAuthUserMutationVariables>;
+export const GetContasMtAuthDocument = gql`
+    mutation GetContasMtAuth {
+  GetContasMtAuth {
+    id
+    conta
+    work
+    investAtual
+  }
+}
+    `;
+export type GetContasMtAuthMutationFn = Apollo.MutationFunction<GetContasMtAuthMutation, GetContasMtAuthMutationVariables>;
+
+/**
+ * __useGetContasMtAuthMutation__
+ *
+ * To run a mutation, you first call `useGetContasMtAuthMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGetContasMtAuthMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [getContasMtAuthMutation, { data, loading, error }] = useGetContasMtAuthMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetContasMtAuthMutation(baseOptions?: Apollo.MutationHookOptions<GetContasMtAuthMutation, GetContasMtAuthMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GetContasMtAuthMutation, GetContasMtAuthMutationVariables>(GetContasMtAuthDocument, options);
+      }
+export type GetContasMtAuthMutationHookResult = ReturnType<typeof useGetContasMtAuthMutation>;
+export type GetContasMtAuthMutationResult = Apollo.MutationResult<GetContasMtAuthMutation>;
+export type GetContasMtAuthMutationOptions = Apollo.BaseMutationOptions<GetContasMtAuthMutation, GetContasMtAuthMutationVariables>;
+export const InputNewContaMtDocument = gql`
+    mutation InputNewContaMt($attributesMeta: String!, $afiliadoId: Int!, $conta: Int!, $investAberturaInit: Float!, $password: String!, $serverMetaTrader: String!) {
+  inputNewContaMt(
+    data: {conta: $conta, investAberturaInit: $investAberturaInit, password: $password, serverMetaTrader: $serverMetaTrader, attributesMeta: $attributesMeta, dataCriacao: "12/15/45", serverVps: "default", typeRisc: "baixo", work: "notwork", userClientId: 4, afiliadoId: $afiliadoId}
+  ) {
+    error
+  }
+}
+    `;
+export type InputNewContaMtMutationFn = Apollo.MutationFunction<InputNewContaMtMutation, InputNewContaMtMutationVariables>;
+
+/**
+ * __useInputNewContaMtMutation__
+ *
+ * To run a mutation, you first call `useInputNewContaMtMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInputNewContaMtMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inputNewContaMtMutation, { data, loading, error }] = useInputNewContaMtMutation({
+ *   variables: {
+ *      attributesMeta: // value for 'attributesMeta'
+ *      afiliadoId: // value for 'afiliadoId'
+ *      conta: // value for 'conta'
+ *      investAberturaInit: // value for 'investAberturaInit'
+ *      password: // value for 'password'
+ *      serverMetaTrader: // value for 'serverMetaTrader'
+ *   },
+ * });
+ */
+export function useInputNewContaMtMutation(baseOptions?: Apollo.MutationHookOptions<InputNewContaMtMutation, InputNewContaMtMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InputNewContaMtMutation, InputNewContaMtMutationVariables>(InputNewContaMtDocument, options);
+      }
+export type InputNewContaMtMutationHookResult = ReturnType<typeof useInputNewContaMtMutation>;
+export type InputNewContaMtMutationResult = Apollo.MutationResult<InputNewContaMtMutation>;
+export type InputNewContaMtMutationOptions = Apollo.BaseMutationOptions<InputNewContaMtMutation, InputNewContaMtMutationVariables>;
 export const LoginAuthUserDocument = gql`
     mutation LoginAuthUser($email: String!, $password: String!) {
   LoginAuthUser(data: {email: $email, password: $password}) {
@@ -244,40 +427,3 @@ export function useLoginAuthUserMutation(baseOptions?: Apollo.MutationHookOption
 export type LoginAuthUserMutationHookResult = ReturnType<typeof useLoginAuthUserMutation>;
 export type LoginAuthUserMutationResult = Apollo.MutationResult<LoginAuthUserMutation>;
 export type LoginAuthUserMutationOptions = Apollo.BaseMutationOptions<LoginAuthUserMutation, LoginAuthUserMutationVariables>;
-export const SinalTelegramDocument = gql`
-    query SinalTelegram {
-  GetUserResolver {
-    username
-    lastName
-    email
-    password
-  }
-}
-    `;
-
-/**
- * __useSinalTelegramQuery__
- *
- * To run a query within a React component, call `useSinalTelegramQuery` and pass it any options that fit your needs.
- * When your component renders, `useSinalTelegramQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSinalTelegramQuery({
- *   variables: {
- *   },
- * });
- */
-export function useSinalTelegramQuery(baseOptions?: Apollo.QueryHookOptions<SinalTelegramQuery, SinalTelegramQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SinalTelegramQuery, SinalTelegramQueryVariables>(SinalTelegramDocument, options);
-      }
-export function useSinalTelegramLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SinalTelegramQuery, SinalTelegramQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SinalTelegramQuery, SinalTelegramQueryVariables>(SinalTelegramDocument, options);
-        }
-export type SinalTelegramQueryHookResult = ReturnType<typeof useSinalTelegramQuery>;
-export type SinalTelegramLazyQueryHookResult = ReturnType<typeof useSinalTelegramLazyQuery>;
-export type SinalTelegramQueryResult = Apollo.QueryResult<SinalTelegramQuery, SinalTelegramQueryVariables>;

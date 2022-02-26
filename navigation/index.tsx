@@ -42,9 +42,11 @@ enableScreens();
 const Stack = createStackNavigator();
 
 const AppNavigator = createSwitchNavigator({
+
+	
 	Home: Home,
-	ConfigProfile: ConfigProfile,
 	Dashboard: Dashboard,
+	ConfigProfile: ConfigProfile,
 	InviteFriend: InviteFriend,
 	Login: Login,
 	PagamentoCiclos: PagamentoCiclos,

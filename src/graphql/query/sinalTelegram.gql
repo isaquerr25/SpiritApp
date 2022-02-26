@@ -1,9 +1,0 @@
-
-query SinalTelegram{
-    GetUserResolver {
-        username
-        lastName
-        email
-        password
-    }
-}

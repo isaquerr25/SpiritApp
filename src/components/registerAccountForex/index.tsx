@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, StyleSheet, Dimensions } from 'react-native';
 
 import {Container , Button, ButtonText, LogoImgae,Spacer ,ButtonIcon,ContainerMax, Input,SubTitle} from '../../styles';
 import Graph from '../../assets/graph.png';
 import Icon  from 'react-native-vector-icons/FontAwesome';
 import { NameBackTop } from '../utils';
+import { Formik } from 'formik';
+import { useInputNewContaMtMutation } from '../../generated/graphql';
 
-const RegisterAccountForex = () => {
-	
+
+const RegisterAccountForex = ({navigation}) => {
+	enum statePopup {
+		disable,
+		error,
+		access
+	}
+	const [popup,setPopup] = useState<statePopup>(0);
+	const [erroMsg,setErroMsg] = useState('');
+
+
+	const [setNewConta,newConta] = useInputNewContaMtMutation();
 	const ScreenHeight = Dimensions.get('window').height;
       
 	return(
@@ -37,20 +49,79 @@ const RegisterAccountForex = () => {
 				/>
 			</Container>
 
-			
-			<Input  placeholder='NOME PARA CONTA'/>
-			<Input  placeholder='NUMERO DA CONTA FOREX'/>
-			<Input  placeholder='SENHA'/>
-			<Input  placeholder='SERVIDOR'/>
-			<Input  placeholder='VALOR EM REAL EM CONTA'/>
-			<Input  placeholder='VALOR EM BONUS'/>
-			
-			
-			<Spacer height={1}/>
-			
-			<Button  radius='15px' >
-				<ButtonText >NOVA CONTA FOREX</ButtonText>
-			</Button>
+			<Formik	initialValues={{ 
+				conta: 0,
+				investAberturaInit:0, 
+				serverMetaTrader:'Testee@5', 
+				attributesMeta:'Testee@5', 
+				password:'Testee@5', 
+				afiliadoId:1
+			}}
+
+			onSubmit={async (values, { setSubmitting }) => {
+				setSubmitting(true);
+				// console.log(values);
+
+				const result = await setNewConta({variables: values});
+				console.log(result);
+				const errors = result.data?.inputNewContaMt.error;
+				console.log('errordasdasdass',errors);
+				console.log('errors',errors?.length ==0);
+				if (errors?.length ==0){
+					navigation.navigate('Dashboard');
+					setPopup(statePopup.access);
+				}
+				else{
+					setPopup(statePopup.error);
+					
+					setErroMsg('Erro ao Criar a Conta. Verifique se os dados estão corretos ou contate o suporte');
+					console.log('não logou');
+				}
+					
+			}}
+			>
+				{({ handleChange, handleBlur, handleSubmit, values }) => (
+					<>
+						<Input 
+							onChangeText={handleChange('conta')}
+							onBlur={handleBlur('conta')}
+							value={values.conta} 
+							placeholder='NUMERO DA CONTA FOREX'
+						/>
+						<Input  
+							onChangeText={handleChange('conta')}
+							onBlur={handleBlur('conta')}
+							value={values.conta} 
+							placeholder='SENHA'
+						/>
+						<Input
+							onChangeText={handleChange('conta')}
+							onBlur={handleBlur('conta')}
+							value={values.conta} 
+							placeholder='SERVIDOR'
+						/>
+						<Input
+							onChangeText={handleChange('conta')}
+							onBlur={handleBlur('conta')}
+							value={values.conta} 
+							placeholder='VALOR EM CONTA'
+						/>
+						<Input
+							onChangeText={handleChange('conta')}
+							onBlur={handleBlur('conta')}
+							value={values.conta} 
+							placeholder='VALOR EM BONUS'
+						/>
+				
+				
+						<Spacer height={1}/>
+				
+						<Button onPress={handleSubmit}  radius='15px' >
+							<ButtonText>NOVA CONTA FOREX</ButtonText>
+						</Button>
+					</>
+				)}
+			</Formik>
 		</Container>
 	);
 };
