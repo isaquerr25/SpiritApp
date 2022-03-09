@@ -1,0 +1,15 @@
+query GetContasMtAuth {
+  GetContasMtAuth {
+    contas {
+      id
+      conta
+      work
+      investAtual
+      investAberturaInit
+      serverMetaTrader
+      attributesMeta
+      password
+    }
+    error
+  }
+}

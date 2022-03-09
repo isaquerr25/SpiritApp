@@ -1,0 +1,5 @@
+mutation DeleteContasMt($id: Float!) {
+  deleteContasMt(id: $id) {
+    message
+  }
+}

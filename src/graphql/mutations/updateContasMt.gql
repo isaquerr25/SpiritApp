@@ -1,0 +1,22 @@
+mutation UpdateContasMt(
+  $id: Float!
+  $investAberturaInit: Float
+  $password: String
+  $serverMetaTrader: String
+  $attributesMeta: String
+  $work: String
+) {
+  updateContasMt(
+    id: $id
+    data: {
+      investAberturaInit: $investAberturaInit
+      password: $password
+      serverMetaTrader: $serverMetaTrader
+      attributesMeta: $attributesMeta
+      work: $work
+    }
+  ) {
+    field
+    message
+  }
+}

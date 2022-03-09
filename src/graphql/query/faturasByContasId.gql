@@ -1,0 +1,13 @@
+query FaturasByContasId($contaId:Float!){
+  faturasByContasId(contaId:$contaId){
+    id
+    titulo
+    dataCriacao
+    status
+    dataInicio
+    dataFechamento
+    valor
+    contaId
+    
+  }
+}

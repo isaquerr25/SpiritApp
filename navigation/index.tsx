@@ -45,20 +45,20 @@ const AppNavigator = createSwitchNavigator({
 
 	
 	Home: Home,
+	Register: Register,
+	UpdateAccount: UpdateAccount,
+	InviteFriend: InviteFriend,
+	PagamentoCiclos: PagamentoCiclos,
 	Dashboard: Dashboard,
 	ConfigProfile: ConfigProfile,
-	InviteFriend: InviteFriend,
 	Login: Login,
-	PagamentoCiclos: PagamentoCiclos,
 	PanelBonus: PanelBonus,
 	Profile: Profile,
 	ConfirmCode: ConfirmCode,
 	HomRestartPassworde: RestartPassword,
 	SendEmail: SendEmail,
 	RecuperationPassword: RecuperationPassword,
-	Register: Register,
 	RegisterAccountForex: RegisterAccountForex,
-	UpdateAccount: UpdateAccount,
 	Notification: Notification
 });
   

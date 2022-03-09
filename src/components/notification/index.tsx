@@ -6,14 +6,14 @@ import Graph from '../../assets/graph.png';
 import Icon  from 'react-native-vector-icons/FontAwesome';
 import {ItemAccontNotification, NameBackTop } from '../utils';
 
-const Notification = () => {
+const Notification = ({ navigation }) => {
 	
 	const ScreenHeight = Dimensions.get('window').height;
 	
 	return(
 		<Container color='ground' padding={20} justify='flex-start' height={ScreenHeight} >
 			
-			<NameBackTop  titleName='Notificações'/>
+			<NameBackTop titleName='Notificações' navigation={navigation} destiny='Dashboard' />
 
 			{/* Aparecer quando não possuir notificações */}
 			{/* <SubTitle color='whiteT' bold  active>Não possui notificações</SubTitle> */}

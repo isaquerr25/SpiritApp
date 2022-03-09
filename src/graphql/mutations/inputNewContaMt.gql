@@ -8,7 +8,7 @@ mutation InputNewContaMt($attributesMeta:String!,$afiliadoId:Int!,$conta:Int!,$i
     dataCriacao:"12/15/45"
     serverVps:"default"
     typeRisc:"baixo"
-    work:"notwork"
+    work:"waitpay"
     userClientId:4
     afiliadoId:$afiliadoId
   }) {

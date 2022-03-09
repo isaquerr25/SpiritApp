@@ -123,7 +123,7 @@ export const ButtonText = styled.Text<{color?:boolean}>`
 export const Title = styled.Text`
     width: ${(props) => (props.width ?  props.width : '100%')};;
     font-size: ${(props) => (props.Fsize ? props.Fsize+'px' : '20px')};;
-    color: ${theme.colors.whiteT};
+    color:  ${(props) => props.type ? theme.colors[props.type] : theme.colors.whiteT};
     text-align: ${(props) => (props.textL ? 'left' : 'center')};
     font-weight: bold;
 `;
@@ -178,6 +178,13 @@ export const AddressList = styled.FlatList`
     background : ${props => props.destination ? '#ff2929' : '#FF655000'};
 `;
 
+export const ListContas = styled.View`
+    flex: 1;
+    height: auto;
+    padding-top: 10;
+    width: 100%;
+    background : ${props => props.destination ? '#ff2929' : '#FF655000'};
+`;
 export const AddressItem = styled.TouchableOpacity`
     justify-content : ${(props) => props.justify || 'center'};
     padding:2px 7px;
