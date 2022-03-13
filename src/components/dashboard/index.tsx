@@ -10,6 +10,8 @@ import background from '../../assets/background.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useDeleteContasMtMutation, useGetContasMtAuthQuery } from '../../generated/graphql';
 import { ContaPopup, DeleteContaPopup, SimplePopUp } from '../popup';
+import HeaderTop from './HeaderTop';
+import ValuesCorrent from './ValuesCorrent';
 
 
 
@@ -153,30 +155,10 @@ const Dashboard = ({ navigation }) => {
 			}
 
 			<Image source={background} style={LogoImgae.imagePos} />
-			<Container justify='flex-start' height={80} row >
 
-				<Avatar />
-				<Spacer width={10} />
-				<ContainerMax align='flex-end' >
+			<HeaderTop prop={navigation} />
 
-					<SubTitle color='whiteT' bold shadow height='60%' style={LogoImgae.shadowtext}>
-						CICLO NOVEMBRO
-					</SubTitle>
-				</ContainerMax>
-
-				<ButtonIcon type='transparent'  ><Icon name="info" size={35} color="#F4F4F4" /></ButtonIcon>
-				<ButtonIcon type='transparent' ><Icon name="gear" size={35} color="#F4F4F4" /></ButtonIcon>
-
-			</Container>
-
-			<Container height={100} justify='flex-start'>
-				<Title Fsize={40} style={LogoImgae.shadowtext}>
-					$1872,00
-				</Title>
-				<SubTitle color='whiteT' bold shadow style={LogoImgae.shadowtext}>
-					NUMERO DE CONTAS ATIVAS:1
-				</SubTitle>
-			</Container>
+			<ValuesCorrent />
 
 			<Container align='center' justify='flex-start' color="grayN" radius='20px'>
 
@@ -197,6 +179,7 @@ const Dashboard = ({ navigation }) => {
 			</Container>
 		</Container>
 	);
+
 };
 
 const styles = StyleSheet.create({

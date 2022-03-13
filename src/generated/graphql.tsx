@@ -197,6 +197,11 @@ export type InputLoginAuthUser = {
   password: Scalars['String'];
 };
 
+export type InputPassWordAuthUser = {
+  newPassword: Scalars['String'];
+  oldPassword: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   LoginAuthUser: UserTypeModel;
@@ -205,6 +210,7 @@ export type Mutation = {
   deleteContasMt: ErrorTypeContas;
   deleteFaturasSpirit: FaturasSpirit;
   inputNewContaMt: GetConta;
+  updateAuthPassword?: Maybe<ErrorType>;
   updateContasMt: Array<ErrorTypeContas>;
   updateFaturasSpirit: FaturasSpirit;
 };
@@ -237,6 +243,11 @@ export type MutationDeleteFaturasSpiritArgs = {
 
 export type MutationInputNewContaMtArgs = {
   data: InputConta;
+};
+
+
+export type MutationUpdateAuthPasswordArgs = {
+  data: InputPassWordAuthUser;
 };
 
 
@@ -273,6 +284,7 @@ export type Query = {
   GetContasMt: Array<ContasMt>;
   GetContasMtAuth: GetAllContaUser;
   GetUserResolver: Array<AuthUser>;
+  GetUserResolverByToken?: Maybe<AuthUser>;
   faturasByContasId: Array<FaturasSpirit>;
 };
 
@@ -350,6 +362,14 @@ export type LoginAuthUserMutationVariables = Exact<{
 
 export type LoginAuthUserMutation = { __typename?: 'Mutation', LoginAuthUser: { __typename?: 'UserTypeModel', errors?: Array<{ __typename?: 'ErrorType', field: string, message: string }> | null, user?: { __typename?: 'AuthUser', email: string } | null } };
 
+export type UpdateAuthPasswordMutationVariables = Exact<{
+  oldPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+}>;
+
+
+export type UpdateAuthPasswordMutation = { __typename?: 'Mutation', updateAuthPassword?: { __typename?: 'ErrorType', field: string, message: string } | null };
+
 export type UpdateContasMtMutationVariables = Exact<{
   id: Scalars['Float'];
   investAberturaInit?: InputMaybe<Scalars['Float']>;
@@ -373,6 +393,11 @@ export type GetContasMtAuthQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetContasMtAuthQuery = { __typename?: 'Query', GetContasMtAuth: { __typename?: 'GetAllContaUser', error?: string | null, contas?: Array<{ __typename?: 'ContasMt', id: number, conta: number, work: string, investAtual?: number | null, investAberturaInit: number, serverMetaTrader: string, attributesMeta: string, password: string }> | null } };
+
+export type GetUserResolverByTokenQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserResolverByTokenQuery = { __typename?: 'Query', GetUserResolverByToken?: { __typename?: 'AuthUser', email: string, firstName: string, lastName: string } | null };
 
 
 export const CreateAuthUserDocument = gql`
@@ -532,6 +557,41 @@ export function useLoginAuthUserMutation(baseOptions?: Apollo.MutationHookOption
 export type LoginAuthUserMutationHookResult = ReturnType<typeof useLoginAuthUserMutation>;
 export type LoginAuthUserMutationResult = Apollo.MutationResult<LoginAuthUserMutation>;
 export type LoginAuthUserMutationOptions = Apollo.BaseMutationOptions<LoginAuthUserMutation, LoginAuthUserMutationVariables>;
+export const UpdateAuthPasswordDocument = gql`
+    mutation UpdateAuthPassword($oldPassword: String!, $newPassword: String!) {
+  updateAuthPassword(data: {oldPassword: $oldPassword, newPassword: $newPassword}) {
+    field
+    message
+  }
+}
+    `;
+export type UpdateAuthPasswordMutationFn = Apollo.MutationFunction<UpdateAuthPasswordMutation, UpdateAuthPasswordMutationVariables>;
+
+/**
+ * __useUpdateAuthPasswordMutation__
+ *
+ * To run a mutation, you first call `useUpdateAuthPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAuthPasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAuthPasswordMutation, { data, loading, error }] = useUpdateAuthPasswordMutation({
+ *   variables: {
+ *      oldPassword: // value for 'oldPassword'
+ *      newPassword: // value for 'newPassword'
+ *   },
+ * });
+ */
+export function useUpdateAuthPasswordMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAuthPasswordMutation, UpdateAuthPasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAuthPasswordMutation, UpdateAuthPasswordMutationVariables>(UpdateAuthPasswordDocument, options);
+      }
+export type UpdateAuthPasswordMutationHookResult = ReturnType<typeof useUpdateAuthPasswordMutation>;
+export type UpdateAuthPasswordMutationResult = Apollo.MutationResult<UpdateAuthPasswordMutation>;
+export type UpdateAuthPasswordMutationOptions = Apollo.BaseMutationOptions<UpdateAuthPasswordMutation, UpdateAuthPasswordMutationVariables>;
 export const UpdateContasMtDocument = gql`
     mutation UpdateContasMt($id: Float!, $investAberturaInit: Float, $password: String, $serverMetaTrader: String, $attributesMeta: String, $work: String) {
   updateContasMt(
@@ -660,3 +720,39 @@ export function useGetContasMtAuthLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetContasMtAuthQueryHookResult = ReturnType<typeof useGetContasMtAuthQuery>;
 export type GetContasMtAuthLazyQueryHookResult = ReturnType<typeof useGetContasMtAuthLazyQuery>;
 export type GetContasMtAuthQueryResult = Apollo.QueryResult<GetContasMtAuthQuery, GetContasMtAuthQueryVariables>;
+export const GetUserResolverByTokenDocument = gql`
+    query GetUserResolverByToken {
+  GetUserResolverByToken {
+    email
+    firstName
+    lastName
+  }
+}
+    `;
+
+/**
+ * __useGetUserResolverByTokenQuery__
+ *
+ * To run a query within a React component, call `useGetUserResolverByTokenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserResolverByTokenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserResolverByTokenQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserResolverByTokenQuery(baseOptions?: Apollo.QueryHookOptions<GetUserResolverByTokenQuery, GetUserResolverByTokenQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserResolverByTokenQuery, GetUserResolverByTokenQueryVariables>(GetUserResolverByTokenDocument, options);
+      }
+export function useGetUserResolverByTokenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserResolverByTokenQuery, GetUserResolverByTokenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserResolverByTokenQuery, GetUserResolverByTokenQueryVariables>(GetUserResolverByTokenDocument, options);
+        }
+export type GetUserResolverByTokenQueryHookResult = ReturnType<typeof useGetUserResolverByTokenQuery>;
+export type GetUserResolverByTokenLazyQueryHookResult = ReturnType<typeof useGetUserResolverByTokenLazyQuery>;
+export type GetUserResolverByTokenQueryResult = Apollo.QueryResult<GetUserResolverByTokenQuery, GetUserResolverByTokenQueryVariables>;

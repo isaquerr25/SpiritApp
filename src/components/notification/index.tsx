@@ -18,7 +18,12 @@ const Notification = ({ navigation }) => {
 			{/* Aparecer quando não possuir notificações */}
 			{/* <SubTitle color='whiteT' bold  active>Não possui notificações</SubTitle> */}
 			
-			<AddressList data={[1,2	]}
+			<AddressList
+
+				// data={[{ title: '', msg: '' }]}
+				data={[]}
+
+				keyExtractor={(item: { id: any; }) => item.id}
 				renderItem={
 					ItemAccontNotification
 				}

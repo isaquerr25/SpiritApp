@@ -43,7 +43,7 @@ const Stack = createStackNavigator();
 
 const AppNavigator = createSwitchNavigator({
 
-	
+
 	Home: Home,
 	Register: Register,
 	UpdateAccount: UpdateAccount,
@@ -55,20 +55,20 @@ const AppNavigator = createSwitchNavigator({
 	PanelBonus: PanelBonus,
 	Profile: Profile,
 	ConfirmCode: ConfirmCode,
-	HomRestartPassworde: RestartPassword,
+	RestartPassword: RestartPassword,
 	SendEmail: SendEmail,
 	RecuperationPassword: RecuperationPassword,
 	RegisterAccountForex: RegisterAccountForex,
 	Notification: Notification
 });
-  
+
 export default  createAppContainer(AppNavigator);
 // export default () => {
 // 	return(
-	
+
 // 		<NavigationContainer >
 // 			<Stack.Navigator  >
-                
+
 // 				<Stack.Screen name="Home" component={Home} options={{title: 'Overview'}}/>
 // 				<Stack.Screen name="Login" component={Login} />
 // 				<Stack.Screen name="Register" component={Register} />

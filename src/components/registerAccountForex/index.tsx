@@ -128,6 +128,7 @@ const RegisterAccountForex = ({navigation}) => {
 							placeholder='NUMERO DA CONTA FOREX'
 						/>
 						<Input  
+							secureTextEntry={true}
 							onChangeText={handleChange('password')}
 							onBlur={handleBlur('password')}
 							value={values.password} 

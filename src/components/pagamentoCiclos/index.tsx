@@ -19,7 +19,7 @@ const PagamentoCiclos = ({ navigation }) => {
 	const [dataPopUp, setDataPopUp] = useState({ account: '', invest: '', status: '' });
 
 
-	const [refreshing, setRefreshing] = React.useState(true);
+	const [refreshing, setRefreshing] = useState(true);
 	const contaFaturas = useFaturasByContasIdQuery({ variables: { contaId: 10 } });
 
 

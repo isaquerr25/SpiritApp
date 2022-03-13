@@ -91,6 +91,7 @@ const Login = ({ navigation }) => {
 
 
 							<Input
+								secureTextEntry={true}
 								onChangeText={handleChange('password')}
 								onBlur={handleBlur('password')}
 								value={values.password}

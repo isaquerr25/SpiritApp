@@ -66,6 +66,41 @@ const UpdateAccount = ({ navigation }) => {
 		}
 	};
 
+	const sendPlay = (values) => {
+		async function onlyWorkAsync() {
+
+			const newValeus = { ...values };
+			console.log('entrsssso ', newValeus);
+			if (newValeus.work == 'waitpay') {
+				setPopup(statePopup.error);
+				setErroMsg('Page a Fatura para continuar e caso ja tenha para aguarde ou procure o suporte');
+			}
+			else {
+				if (newValeus.work == 'work') {
+					newValeus.work = 'notwork';
+				} else {
+					newValeus.work = 'work';
+				}
+
+				console.log('entro ', typeof (newValeus));
+				const result = await setUpdateContas({ variables: newValeus });
+				const errors = result.data?.updateContasMt;
+
+				console.log('errors ', errors);
+
+				if (errors?.length == 0) {
+					setValuesInput(newValeus);
+					setPopup(statePopup.access);
+				}
+				else {
+					setPopup(statePopup.error);
+					setErroMsg(errors[0].message);
+				}
+			}
+		}
+		onlyWorkAsync();
+
+	};
 
 	const ScreenHeight = Dimensions.get('window').height;
 	return(
@@ -82,7 +117,7 @@ const UpdateAccount = ({ navigation }) => {
 					<SimplePopUp type='accest' msg='Success' />
 				</TouchableOpacity>
 			}
-			<NameBackTop titleName='Notificações' navigation={navigation} destiny='Dashboard' />
+			<NameBackTop titleName='Atualizar Conta' navigation={navigation} destiny='Dashboard' />
 
 			<Container borderCo='redAtencion' radius='15px' padding={20} height={140}  >
 				<SubTitle color='redAtencion' small>
@@ -93,7 +128,7 @@ const UpdateAccount = ({ navigation }) => {
 			</Container>
 
 			<Container row height={90}>
-				<Button type='transparent' width='30%' marginD={0} padding radius='10px' align='center'>
+				<Button onPress={() => { sendPlay(valuesInput); }} type='transparent' width='30%' marginD={0} padding radius='10px' align='center'>
 					{valuesInput.work == 'waitpay' && <Icon name="ban" size={70} color="#FFFFFF" />}
 					{valuesInput.work == 'work' && <Icon name="pause" size={70} color="#FFFFFF" />}
 					{valuesInput.work == 'notwork' && <Icon name="play" size={70} color="#FFFFFF" />}
@@ -114,12 +149,13 @@ const UpdateAccount = ({ navigation }) => {
 
 			<Formik initialValues={valuesInput}
 				onSubmit={async (values, { setSubmitting }) => {
-					setValuesInput(values);
+
 					values.conta = Number(values.conta);
 					values.investAberturaInit = Number(values.investAberturaInit);
 					if (values.conta != 0 && values.investAberturaInit >= 1000 &&
 						values.serverMetaTrader != '' && values.password != '') {
 						const result = await setUpdateContas({ variables: values });
+						setValuesInput(values);
 						const errors = result.data?.updateContasMt;
 						if (errors?.length == 0) {
 							setPopup(statePopup.access);
@@ -147,6 +183,7 @@ const UpdateAccount = ({ navigation }) => {
 					<>
 
 						<Input
+							secureTextEntry={true}
 							onChangeText={handleChange('password')}
 							onBlur={handleBlur('password')}
 							value={values.password}

@@ -4,14 +4,15 @@ import { View, Image, StyleSheet, Dimensions } from 'react-native';
 import {Container , Button, Title, ButtonText, LogoImgae,Spacer , Input,SubTitle} from '../../styles';
 import logo_spirit from '../../assets/logo_spirit.png';
 import Icon  from 'react-native-vector-icons/FontAwesome';
+import { NameBackTop } from '../utils';
 
-const RestartPassword = () => {
+const RestartPassword = ({ navigation }) => {
 	
 	const ScreenHeight = Dimensions.get('window').height;
       
 	return(
 		<Container color='ground' padding={30} justify='space-between' height={ScreenHeight} >
-			<Button type='ground' radius='15px'><Icon name="angle-left" size={30} color="#F4F4F4" /></Button>
+			<NameBackTop navigation={navigation} destiny='Profile' titleName='Alterar Password' />
 			<Image
 				style={LogoImgae.logoHalf}
 				source={logo_spirit}

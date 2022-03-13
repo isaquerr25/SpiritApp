@@ -18,7 +18,7 @@ export const NameBackTop = ({titleName,navigation,destiny }) =>{
 	);
 };
 
-export const ItemAccontNotification = () =>{
+export const ItemAccontNotification = ({ prop }) => {
 	return(
 		<AddressItem type='transparent'>
 			<Button marginD={0} type='transparent'>
@@ -30,8 +30,8 @@ export const ItemAccontNotification = () =>{
 					<Container heightM={50} row>
 						
 						<Container  width={1000}>
-							<SubTitle textL bold color='whiteT' small>Ação: Promoção</SubTitle>
-							<SubTitle textL bold color='whiteT' small numberOfLines={1}>Msg: Pomoção XM está dando 100% de depósito</SubTitle>
+							<SubTitle textL bold color='whiteT' small>Ação: {prop.title}</SubTitle>
+							<SubTitle textL bold color='whiteT' small numberOfLines={1}>Msg: {prop.msg}</SubTitle>
 						</Container>
 					</Container>
 				</Container>
@@ -69,14 +69,3 @@ export const ServerForexCiclos = () =>{
 		</AddressItem>
 	);
 };
-
-
-
-
-
-
-
-
-
-
-
