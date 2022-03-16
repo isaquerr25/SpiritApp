@@ -4,7 +4,6 @@ import { View, Image, StyleSheet, Dimensions, ActivityIndicator } from 'react-na
 import {Container , Button, ButtonText, LogoImgae,Title} from '../../styles';
 import logo_spirit from '../../assets/logo_spirit.png';
 import { useGetUserResolverByTokenQuery } from '../../generated/graphql';
-
 const Home = ({navigation}) => {
 
 	enum statePopup {
@@ -23,20 +22,24 @@ const Home = ({navigation}) => {
 	};
 
 	const onRefresh = React.useCallback(() => {
-		console.log('onRefresh');
 		setRefreshing(true);
 		async function fetchMyAPI() {
+			console.log('onRefresh ', 'refConta');
 
-			const refConta = await infoUser.refetch();
-			console.log('onRefresh ', refConta);
-			const response = refConta.data.GetUserResolverByToken;
-			console.log('onRefresh ', response);
-
-			if (response == null) {
-				setInfoUser(response);
-			} else {
-				navigation.navigate('Dashboard');
+			try{
+				const refConta = await infoUser.refetch();
+				const response = refConta.data.GetUserResolverByToken;
+				console.log('onRefresh ', response);
+				if (response == null) {
+					setInfoUser(response);
+				} else {
+					navigation.navigate('Dashboard');
+				}
+			}catch{
+				setInfoUser(null);
 			}
+
+
 		}
 		fetchMyAPI();
 		wait(2000).then(() => {
@@ -52,30 +55,39 @@ const Home = ({navigation}) => {
 	);
 
 
-	return(
-		<Container color='ground' padding={30} justify='flex-start' height={ScreenHeight}>
+	return (
+		<Container
+			color="ground"
+			padding={30}
+			justify="flex-start"
+			height={ScreenHeight}
+		>
+			<Image style={LogoImgae.logo} source={logo_spirit} resizeMode="contain" />
 
-			<Image
-				style={LogoImgae.logo}
-				source={logo_spirit}
-				resizeMode="contain"
-			/>
-
-			{useInfoUser != '' &&
+			{useInfoUser ==null && (
 				<>
-					<Button marginD={15} radius='15px' onPress={() => { navigation.navigate('Login'); }}>
+					<Button
+						marginD={15}
+						radius="15px"
+						onPress={() => {
+							navigation.navigate('Login');
+						}}
+					>
 						<ButtonText>Login</ButtonText>
 					</Button>
-				<Button type='transparent' borderCo='primary' radius='15px' onPress={() => { navigation.navigate('Register'); }}>
-					<ButtonText color='whiteT'>Register</ButtonText>
-				</Button>
+					<Button
+						type="transparent"
+						borderCo='primary'
+						radius="15px"
+						onPress={() => {
+							navigation.navigate('Register');
+						}}
+					>
+						<ButtonText color="whiteT">Register</ButtonText>
+					</Button>
 				</>
-			}
-			{useInfoUser == '' &&
-				<ActivityIndicator size="large" color="#00ff00" />
-
-			}
-
+			)}
+			{useInfoUser == '' && <ActivityIndicator size="large" color="#00ff00" />}
 		</Container>
 	);
 };
