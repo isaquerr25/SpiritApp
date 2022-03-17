@@ -4,7 +4,7 @@ import { View, Image, StyleSheet, Dimensions, RefreshControl } from 'react-nativ
 import {Container , Button, ButtonText, LogoImgae,Spacer ,ButtonIcon,ContainerMax, AddressItem, VerticalSeparator, AddressList,Input,SubTitle} from '../../styles';
 import Graph from '../../assets/graph.png';
 import Icon  from 'react-native-vector-icons/FontAwesome';
-import {ItemAccontNotification, NameBackTop, ServerForexCiclos } from '../utils';
+import {ItemAccontNotification, NameBackTop, ServerForexCiclos, backPage } from '../utils';
 import { useFaturasByContasIdQuery } from '../../generated/graphql';
 
 const PagamentoCiclos = ({ navigation }) => {
@@ -17,15 +17,13 @@ const PagamentoCiclos = ({ navigation }) => {
 	}
 
 	const [dataPopUp, setDataPopUp] = useState({ account: '', invest: '', status: '' });
-
-
 	const [refreshing, setRefreshing] = useState(true);
 	const contaFaturas = useFaturasByContasIdQuery({ variables: { contaId: 10 } });
-
-
 	const [itensFaturas, setInfoAcconts] = useState<any>();
 	const [popup, setPopup] = useState<statePopup>(0);
 
+
+	backPage(navigation,'Dashboard');
 	const wait = (timeout: number | undefined) => {
 		return new Promise(resolve => setTimeout(resolve, timeout));
 	};

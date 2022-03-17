@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 
 import {Container , Button, ButtonText, LogoImgae,Spacer , Input,SubTitle} from '../../styles';
 import logo_spirit from '../../assets/logo_spirit.png';
@@ -30,74 +30,75 @@ const Register = ({ navigation }) => {
 	const ScreenHeight = Dimensions.get('window').height;
 
 	return(
-		<Container color='ground' padding={30} justify='space-between' height={ScreenHeight} >
-			{popup == statePopup.error &&
+		<ScrollView>
+			<Container color='ground' padding={30} justify='space-between' height={ScreenHeight} >
+				{popup == statePopup.error &&
 				<TouchableOpacity style={styles.button} onPress={() => setPopup(statePopup.disable)}>
 
 					<SimplePopUp type='error' msg={erroMsg} />
 				</TouchableOpacity>
-			}
+				}
 
-			{popup == statePopup.access &&
+				{popup == statePopup.access &&
 				<TouchableOpacity style={styles.button} onPress={() => { setPopup(statePopup.disable); navigation.navigate('Home'); }}>
 					<SimplePopUp type='accest' msg='Create Success' />
 				</TouchableOpacity>
-			}
+				}
 
-			<NameBackTop titleName='Home' navigation={navigation} destiny='Home' />
+				<NameBackTop titleName='Home' navigation={navigation} destiny='Home' />
 			
-			<Image
-				style={LogoImgae.logoHalf}
-				source={logo_spirit}
-				resizeMode="contain"
-			/>
+				<Image
+					style={LogoImgae.logoHalf}
+					source={logo_spirit}
+					resizeMode="contain"
+				/>
 			
-			<Formik initialValues={valuesInput}
+				<Formik initialValues={valuesInput}
 
-				onSubmit={async (values, { setSubmitting }) => {
-					values.username = values.email;
-					setValuesInput(values);
-					console.log('1');
-					console.log(values.email != '');
-					console.log(values.password != '');
-					console.log(values.confirmPassword != '');
-					console.log(values.confirmPassword == values.password);
-					console.log(values.firstName != '');
-					console.log(values.lastName != '');
-					if (values.email != '' &&
+					onSubmit={async (values, { setSubmitting }) => {
+						values.username = values.email;
+						setValuesInput(values);
+						console.log('1');
+						console.log(values.email != '');
+						console.log(values.password != '');
+						console.log(values.confirmPassword != '');
+						console.log(values.confirmPassword == values.password);
+						console.log(values.firstName != '');
+						console.log(values.lastName != '');
+						if (values.email != '' &&
 						values.password != '' &&
 						values.confirmPassword != '' &&
 						values.confirmPassword == values.password &&
 						values.firstName != '' &&
 						values.lastName != '') {
 
-						const result = await setNewConta({ variables: values });
-						console.log('3');
-						console.log(result);
-						const errors = result.data?.createAuthUser.errors;
-						console.log('errordasdasdass', errors);
-						console.log('errors', errors?.length == 0);
+							const result = await setNewConta({ variables: values });
+							console.log('3');
+							console.log(result);
+							const errors = result.data?.createAuthUser.errors;
+							console.log('errordasdasdass', errors);
+							console.log('errors', errors?.length == 0);
 
-						if (errors?.length == 0) {
-							setPopup(statePopup.access);
-							setSubmitting(true);
+							if (errors?.length == 0) {
+								setPopup(statePopup.access);
+								setSubmitting(true);
+							}
+							else {
+								setPopup(statePopup.error);
+								if (errors.length > 0) {
+									setErroMsg(('Campo: ' + errors[0].field + '\n Mensagem: ' + errors[0].message));
+
+								} else {
+
+									setErroMsg('Erro ao Criar a Conta. Verifique se os dados estão corretos ou contate o suporte');
+								}
+								console.log('não logou');
+							}
 						}
 						else {
 							setPopup(statePopup.error);
-							if (errors.length > 0) {
-								setErroMsg(('Campo: ' + errors[0].field + '\n Mensagem: ' + errors[0].message));
 
-							} else {
-
-								setErroMsg('Erro ao Criar a Conta. Verifique se os dados estão corretos ou contate o suporte');
-							}
-							console.log('não logou');
-						}
-					}
-					else {
-						setPopup(statePopup.error);
-
-						setErroMsg('Preencha os campos: ' +
+							setErroMsg('Preencha os campos: ' +
 
 
 
@@ -110,50 +111,52 @@ const Register = ({ navigation }) => {
 							(values.firstName != '' ? '' : 'Nome,\n') +
 							(values.lastName != '' ? '' : 'Sobrenome,\n') +
 							'');
-						console.log('não logou');
-					}
-				}}
-			>
-				{({ handleChange, handleBlur, handleSubmit, values }) => (
-					<>
-						<Input
-							onChangeText={handleChange('firstName')}
-							onBlur={handleBlur('firstName')}
-							value={values.firstName}
-							placeholder='Nome'
-						/>
-						<Input
-							onChangeText={handleChange('lastName')}
-							onBlur={handleBlur('lastName')}
-							value={values.lastName}
-							placeholder='Sobrenome'
-						/>
-						<Input
-							onChangeText={handleChange('email')}
-							onBlur={handleBlur('email')}
-							value={(values.email == '' ? '' : values.email.toString())}
-							placeholder='Email'
-						/>
-						<Input
-							onChangeText={handleChange('password')}
-							onBlur={handleBlur('password')}
-							value={values.password}
-							placeholder='Password'
-						/>
-						<Input
-							onChangeText={handleChange('confirmPassword')}
-							onBlur={handleBlur('confirmPassword')}
-							value={values.confirmPassword}
-							placeholder='Confirm Password'
-						/>
+							console.log('não logou');
+						}
+					}}
+				>
+					{({ handleChange, handleBlur, handleSubmit, values }) => (
+						<>
+							<Input
+								onChangeText={handleChange('firstName')}
+								onBlur={handleBlur('firstName')}
+								value={values.firstName}
+								placeholder='Nome'
+							/>
+							<Input
+								onChangeText={handleChange('lastName')}
+								onBlur={handleBlur('lastName')}
+								value={values.lastName}
+								placeholder='Sobrenome'
+							/>
+							<Input
+								onChangeText={handleChange('email')}
+								onBlur={handleBlur('email')}
+								value={(values.email == '' ? '' : values.email.toString())}
+								placeholder='Email'
+							/>
+							<Input
+								onChangeText={handleChange('password')}
+								onBlur={handleBlur('password')}
+								value={values.password}
+								placeholder='Password'
+							/>
+							<Input
+								onChangeText={handleChange('confirmPassword')}
+								onBlur={handleBlur('confirmPassword')}
+								value={values.confirmPassword}
+								placeholder='Confirm Password'
+							/>
 
-						<Button onPress={handleSubmit} type='transparent' borderCo='primary' radius='15px' >
-							<ButtonText color='whiteT'>Register</ButtonText>
-						</Button> 
-					</>
-				)}
-			</Formik>
-		</Container>);
+							<Button onPress={handleSubmit} type='transparent' borderCo='primary' radius='15px' >
+								<ButtonText color='whiteT'>Register</ButtonText>
+							</Button>
+						</>
+					)}
+				</Formik>
+			</Container>
+		</ScrollView>
+	);
 };
 const styles = StyleSheet.create({
 	container: {

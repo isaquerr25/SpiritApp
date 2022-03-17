@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 
-import { Container, Button, ButtonText, LogoImgae, Spacer, Input, SubTitle, Title } from '../../styles';
+import { Container, Button, ButtonText, LogoImgae, Spacer, Input, SubTitle } from '../../styles';
 import Graph from '../../assets/graph.png';
 import Icon  from 'react-native-vector-icons/FontAwesome';
-import { NameBackTop } from '../utils';
+import { backPage, NameBackTop } from '../utils';
 import { Formik } from 'formik';
 import { SimplePopUp } from '../popup';
 import { useUpdateContasMtMutation } from '../../generated/graphql';
@@ -22,6 +22,7 @@ const UpdateAccount = ({ navigation }) => {
 
 	const [valuesInput, setValuesInput] = useState(navigation.state.params.item);
 
+	backPage(navigation,'Dashboard');
 
 	useEffect(() => {
 		console.log(navigation.state.params.item);
@@ -104,119 +105,121 @@ const UpdateAccount = ({ navigation }) => {
 
 	const ScreenHeight = Dimensions.get('window').height;
 	return(
-		<Container color='ground' padding={30} justify='space-between' height={ScreenHeight} >
-			{popup == statePopup.error &&
+		<ScrollView>
+			<Container color='ground' padding={30} justify='space-between' height={ScreenHeight} >
+				{popup == statePopup.error &&
 				<TouchableOpacity style={styles.button} onPress={() => setPopup(statePopup.disable)}>
 
 					<SimplePopUp type='error' msg={erroMsg} />
 				</TouchableOpacity>
-			}
+				}
 
-			{popup == statePopup.access &&
+				{popup == statePopup.access &&
 				<TouchableOpacity style={styles.button} onPress={() => setPopup(statePopup.disable)}>
 					<SimplePopUp type='accest' msg='Success' />
 				</TouchableOpacity>
-			}
-			<NameBackTop titleName='Atualizar Conta' navigation={navigation} destiny='Dashboard' />
+				}
+				<NameBackTop titleName='Atualizar Conta' navigation={navigation} destiny='Dashboard' />
 
-			<Container borderCo='redAtencion' radius='15px' padding={20} height={140}  >
-				<SubTitle color='redAtencion' small>
+				<Container borderCo='redAtencion' radius='15px' padding={20} height={140}  >
+					<SubTitle color='redAtencion' small>
 					Todas as informações sobre a conta forex são fornecidas
 					pela correntora e devem ser escritas de acordo como foram
 					fornecidas. O valor da conta será apenas o dinheiro em dolares.
-				</SubTitle>
-			</Container>
-
-			<Container row height={90}>
-				<Button onPress={() => { sendPlay(valuesInput); }} type='transparent' width='30%' marginD={0} padding radius='10px' align='center'>
-					{valuesInput.work == 'waitpay' && <Icon name="ban" size={70} color="#FFFFFF" />}
-					{valuesInput.work == 'work' && <Icon name="pause" size={70} color="#FFFFFF" />}
-					{valuesInput.work == 'notwork' && <Icon name="play" size={70} color="#FFFFFF" />}
-				</Button>
-				<Container  height={60} justify='space-between'>
-					<SubTitle color='whiteT' textL bold>CONTA: {valuesInput.conta} </SubTitle>
-					<SubTitle color='whiteT' textL bold>Status: {valuesInput.work}</SubTitle>
+					</SubTitle>
 				</Container>
 
-				<Image
-					style={LogoImgae.logoGraph}
-					source={Graph}
-					resizeMode="contain"
-				/>
-			</Container>
+				<Container row height={90}>
+					<Button onPress={() => { sendPlay(valuesInput); }} type='transparent' width='30%' marginD={0} padding radius='10px' align='center'>
+						{valuesInput.work == 'waitpay' && <Icon name="ban" size={70} color="#FFFFFF" />}
+						{valuesInput.work == 'work' && <Icon name="pause" size={70} color="#FFFFFF" />}
+						{valuesInput.work == 'notwork' && <Icon name="play" size={70} color="#FFFFFF" />}
+					</Button>
+					<Container  height={60} justify='space-between'>
+						<SubTitle color='whiteT' textL bold>CONTA: {valuesInput.conta} </SubTitle>
+						<SubTitle color='whiteT' textL bold>Status: {valuesInput.work}</SubTitle>
+					</Container>
+
+					<Image
+						style={LogoImgae.logoGraph}
+						source={Graph}
+						resizeMode="contain"
+					/>
+				</Container>
 
 
 
-			<Formik initialValues={valuesInput}
-				onSubmit={async (values, { setSubmitting }) => {
+				<Formik initialValues={valuesInput}
+					onSubmit={async (values, { setSubmitting }) => {
 
-					values.conta = Number(values.conta);
-					values.investAberturaInit = Number(values.investAberturaInit);
-					if (values.conta != 0 && values.investAberturaInit >= 1000 &&
+						values.conta = Number(values.conta);
+						values.investAberturaInit = Number(values.investAberturaInit);
+						if (values.conta != 0 && values.investAberturaInit >= 1000 &&
 						values.serverMetaTrader != '' && values.password != '') {
-						const result = await setUpdateContas({ variables: values });
-						setValuesInput(values);
-						const errors = result.data?.updateContasMt;
-						if (errors?.length == 0) {
-							setPopup(statePopup.access);
-							setSubmitting(true);
+							const result = await setUpdateContas({ variables: values });
+							setValuesInput(values);
+							const errors = result.data?.updateContasMt;
+							if (errors?.length == 0) {
+								setPopup(statePopup.access);
+								setSubmitting(true);
+							}
+							else {
+								setPopup(statePopup.error);
+								setErroMsg('Erro ao Criar a Conta. Verifique se os dados estão corretos ou contate o suporte');
+							}
 						}
 						else {
 							setPopup(statePopup.error);
-							setErroMsg('Erro ao Criar a Conta. Verifique se os dados estão corretos ou contate o suporte');
-						}
-					}
-					else {
-						setPopup(statePopup.error);
 
-						setErroMsg('Preencha os campos: ' +
+							setErroMsg('Preencha os campos: ' +
 							(values.conta != 0 ? '' : 'NUMERO DA CONTA FOREX,\n') +
 							(values.password != '' ? '' : 'SENHA,\n') +
 							(values.serverMetaTrader != '' ? '' : 'SERVIDOR,\n') +
 							(values.investAberturaInit != 0 ? (values.investAberturaInit >= 1000 ? '' :
 								'Investimento Min $1000 Dólares,\n') : 'VALOR EM CONTA,\n') +
 							'');
-					}
-				}}
-			>
-				{({ handleChange, handleBlur, handleSubmit, values }) => (
-					<>
+						}
+					}}
+				>
+					{({ handleChange, handleBlur, handleSubmit, values }) => (
+						<>
 
-						<Input
-							secureTextEntry={true}
-							onChangeText={handleChange('password')}
-							onBlur={handleBlur('password')}
-							value={values.password}
-							placeholder='SENHA'
-						/>
-						<Input
-							onChangeText={handleChange('serverMetaTrader')}
-							onBlur={handleBlur('serverMetaTrader')}
-							value={values.serverMetaTrader}
-							placeholder='SERVIDOR'
-						/>
-						<Input
-							onChangeText={handleChange('attributesMeta')}
-							onBlur={handleBlur('attributesMeta')}
-							value={values.attributesMeta}
-							placeholder='ATRIBUTO META TRADER'
-						/>
-						<Input
-							onChangeText={handleChange('investAberturaInit')}
-							onBlur={handleBlur('investAberturaInit')}
-							value={(values.investAberturaInit == 0 ? '' : values.investAberturaInit.toString())}
-							keyboardType="numeric"
-							placeholder='VALOR EM CONTA'
-						/>
-						<Spacer height={1} />
+							<Input
+								secureTextEntry={true}
+								onChangeText={handleChange('password')}
+								onBlur={handleBlur('password')}
+								value={values.password}
+								placeholder='SENHA'
+							/>
+							<Input
+								onChangeText={handleChange('serverMetaTrader')}
+								onBlur={handleBlur('serverMetaTrader')}
+								value={values.serverMetaTrader}
+								placeholder='SERVIDOR'
+							/>
+							<Input
+								onChangeText={handleChange('attributesMeta')}
+								onBlur={handleBlur('attributesMeta')}
+								value={values.attributesMeta}
+								placeholder='ATRIBUTO META TRADER'
+							/>
+							<Input
+								onChangeText={handleChange('investAberturaInit')}
+								onBlur={handleBlur('investAberturaInit')}
+								value={(values.investAberturaInit == 0 ? '' : values.investAberturaInit.toString())}
+								keyboardType="numeric"
+								placeholder='VALOR EM CONTA'
+							/>
+							<Spacer height={1} />
 
-						<Button onPress={handleSubmit} radius='15px' >
-							<ButtonText>Atualizar</ButtonText>
-						</Button>
-					</>
-				)}
-			</Formik>
-		</Container>
+							<Button onPress={handleSubmit} radius='15px' >
+								<ButtonText>Atualizar</ButtonText>
+							</Button>
+						</>
+					)}
+				</Formik>
+			</Container>
+		</ScrollView>
 	);
 };
 

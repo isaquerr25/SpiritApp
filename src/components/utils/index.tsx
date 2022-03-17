@@ -2,6 +2,9 @@
 
 import {Container ,AddressItem , Button, ButtonText, ButtonIcon,VerticalSeparator, LogoImgae,Spacer , Input,SubTitle, ContainerMax} from '../../styles';
 import Icon  from 'react-native-vector-icons/FontAwesome';
+import { useEffect } from 'react';
+import { BackHandler } from 'react-native';
+
 
 export const NameBackTop = ({titleName,navigation,destiny }) =>{
 	return(
@@ -68,4 +71,19 @@ export const ServerForexCiclos = () =>{
 			
 		</AddressItem>
 	);
+};
+
+
+export const backPage = (navigation,detiny) => {
+	function handleBackButtonClick() {
+		navigation.navigate(detiny);
+		return true;
+	}
+
+	useEffect(() => {
+		BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+		return () => {
+			BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+		};
+	}, []);
 };

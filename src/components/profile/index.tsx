@@ -4,7 +4,7 @@ import { View, Image, StyleSheet, Dimensions } from 'react-native';
 import {Container , Button, ButtonText, LogoImgae,Spacer ,VerticalSeparator, Input,SubTitle, Avatar, AvatarSize} from '../../styles';
 import logo_spirit from '../../assets/logo_spirit.png';
 import Icon  from 'react-native-vector-icons/FontAwesome';
-import { NameBackTop } from '../utils';
+import { NameBackTop, backPage } from '../utils';
 import { useGetUserResolverByTokenQuery } from '../../generated/graphql';
 import { SimplePopUp } from '../popup';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -23,6 +23,8 @@ const Profile = ({ navigation }) => {
 	const [useInfoUser, setInfoUser] = useState<any>();
 	const [popup, setPopup] = useState<statePopup>(0);
 
+
+	backPage(navigation,'ConfigProfile');
 	const wait = (timeout: number | undefined) => {
 		return new Promise(resolve => setTimeout(resolve, timeout));
 	};
@@ -57,7 +59,7 @@ const Profile = ({ navigation }) => {
 
 	return(
 		<Container color='ground' padding={30} justify='flex-start'  flexP height={ScreenHeight} >
-			<NameBackTop navigation={navigation} destiny='Dashboard' titleName='Perfil' />
+			<NameBackTop navigation={navigation} destiny='ConfigProfile' titleName='Perfil' />
 
 			<Spacer height={20} />
 

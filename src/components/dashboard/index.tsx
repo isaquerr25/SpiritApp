@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Dimensions, RefreshControl, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Dimensions, RefreshControl, TouchableOpacity, BackHandler } from 'react-native';
 
 import {
 	Container, Button, ContainerMax, AddressItem,
@@ -46,7 +46,7 @@ const Dashboard = ({ navigation }) => {
 	};
 
 	const onRefresh = React.useCallback(() => {
-		console.log('onRefresh');
+
 		setRefreshing(true);
 		async function fetchMyAPI() {
 			const refConta = await contasMt.refetch();
@@ -60,13 +60,26 @@ const Dashboard = ({ navigation }) => {
 		});
 	}, []);
 
+
+	const valueObj = (items) => {
+
+		const fg = items.map((index) => {
+			return Number(index.investAberturaInit);
+		});
+		console.log(fg);
+		return fg.reduce((soma,index) => {
+			return soma += index;
+		});
+	};
+
+
 	useEffect(() => {
 		onRefresh();
 	}, []);
 
 	useEffect(() => {
 		async function deleteGraphqlInter() {
-			console.log('accontDelete ', accontDelete);
+
 			const result = await deleteGraphql({ variables: { id: accontDelete } });
 			if (result.data?.deleteContasMt.message == 'success') {
 				setPopup(statePopup.success);
@@ -75,7 +88,7 @@ const Dashboard = ({ navigation }) => {
 				setPopup(statePopup.error);
 			}
 			setMsgPopUp(result.data?.deleteContasMt.message == undefined ? 'contact support' : result.data?.deleteContasMt.message);
-			console.log(result.data?.deleteContasMt.message);
+
 			onRefresh();
 		}
 		deleteGraphqlInter();
@@ -86,7 +99,7 @@ const Dashboard = ({ navigation }) => {
 	useEffect(() => {
 		if (infoAcconts != undefined) {
 			clearTimeout();
-			console.log('paro');
+
 		}
 
 	}, [infoAcconts]);
@@ -110,26 +123,40 @@ const Dashboard = ({ navigation }) => {
 		/>
 	);
 
-	const ItemAccont = ({ item }) => (
-		<AddressItem type='transparent'>
-			<Button onPress={() => { setDataPopUp(item); setPopup(2); console.log(item); }} marginD={0} type='transparent'>
-				<Container height={60} row justify='flex-start' >
-					<ButtonIcon height={60} width={60} type='ground' >
-						<Icon name="flash" size={40} color="#FFF701" />
-					</ButtonIcon>
-					<Container heightM={50} row>
-						<Container width={1000}>
-							<SubTitle textL bold color='black' small>NUMBER: {item.conta}</SubTitle>
-							<SubTitle textL bold color='black' small>PRICE: {item.investAberturaInit == null ? 0 : item.investAberturaInit}</SubTitle>
-							<SubTitle textL bold color='black' small>STATUS: {item.work}</SubTitle>
+	const ItemAccont = ({ item }) =>{
+		let colorLine ='black';
+		let colorFlash = '#FFF701';
+		if(item.work == 'notwork'){
+			colorLine = 'info';
+			colorFlash = '#426782';
+		}
+		else if(item.work == 'waitpay'){
+			colorLine = 'redAtencion';
+			colorFlash = '#CB2E2E';
+		}
+
+		return(
+			<AddressItem type='transparent'>
+				<Button onPress={() => { setDataPopUp(item); setPopup(2); }} marginD={0} type='transparent'>
+					<Container height={60} row justify='flex-start' >
+						<ButtonIcon height={60} width={60} type='ground' >
+							<Icon name="flash" size={40} color={colorFlash} />
+						</ButtonIcon>
+						<Container heightM={50} row>
+							<Container width={1000}>
+								<SubTitle textL bold color={colorLine} small>NUMBER: {item.conta}</SubTitle>
+								<SubTitle textL bold color={colorLine}  small>PRICE: {item.investAberturaInit == null ? 0 : item.investAberturaInit}</SubTitle>
+								<SubTitle textL bold color={colorLine} small>STATUS: {
+									item.work == 'notwork' ? 'not work' : (item.work== 'waitpay' ? 'wait pay' : item.work)
+								}</SubTitle>
+							</Container>
 						</Container>
 					</Container>
-				</Container>
-				<Spacer />
-				<VerticalSeparator color='grayW' height='3px' width='auto' radius='15px' />
-			</Button>
-		</AddressItem>
-	);
+					<Spacer />
+					<VerticalSeparator color='grayW' height='3px' width='auto' radius='15px' />
+				</Button>
+			</AddressItem>
+		);};
 	return (
 		<Container color='ground' padding={20} justify='flex-start' height={ScreenHeight} >
 
@@ -158,8 +185,15 @@ const Dashboard = ({ navigation }) => {
 
 			<HeaderTop prop={navigation} />
 
-			<ValuesCorrent />
-
+			{infoAcconts != undefined &&
+			<ValuesCorrent
+				somaValue={valueObj(infoAcconts)}
+				allAccounts={infoAcconts.length}
+			/>
+			}
+			{infoAcconts == undefined &&
+			<ValuesCorrent/>
+			}
 			<Container align='center' justify='flex-start' color="grayN" radius='20px'>
 
 				<Container height={70} row>
@@ -167,7 +201,7 @@ const Dashboard = ({ navigation }) => {
 						<Icon name="plus" size={30} color="#FFFFFF" />
 					</Button>
 					<ButtonIcon onPress={() => { onRefresh(); }} height={50} width={50} type='ground'  >
-						<Icon name="credit-card" size={30} color="#FFFFFF" />
+						<Icon name="undo" size={30} color="#FFFFFF" />
 					</ButtonIcon>
 				</Container>
 

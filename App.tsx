@@ -39,13 +39,12 @@ export default function App() {
 	
 		<View style={{ flex: 1 }}>
 			<ApolloProvider client={client} > 
-				<ScrollView>
 				
 				
-					
-					<Navigation/>
 
-				</ScrollView>
+					
+				<Navigation/>
+
 			</ApolloProvider>
 		</View>
 		

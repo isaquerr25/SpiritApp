@@ -1,15 +1,15 @@
-import React from 'react';
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Image, StyleSheet, Dimensions , BackHandler} from 'react-native';
 
-import {Container , Button, ButtonText, LogoImgae,Spacer ,ButtonIcon,ContainerMax, AddressItem, VerticalSeparator, AddressList,Input,SubTitle} from '../../styles';
+import {Container , AddressList} from '../../styles';
 import Graph from '../../assets/graph.png';
 import Icon  from 'react-native-vector-icons/FontAwesome';
-import {ItemAccontNotification, NameBackTop } from '../utils';
+import {ItemAccontNotification, NameBackTop, backPage } from '../utils';
 
 const Notification = ({ navigation }) => {
 	
 	const ScreenHeight = Dimensions.get('window').height;
-	
+	backPage(navigation,'Dashboard');
 	return(
 		<Container color='ground' padding={20} justify='flex-start' height={ScreenHeight} >
 			

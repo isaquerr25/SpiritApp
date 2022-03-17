@@ -5,6 +5,12 @@ import { Image, StyleSheet, Dimensions, RefreshControl, TouchableOpacity } from 
 import { Avatar, ButtonIcon, Container, ContainerMax, LogoImgae, Spacer, SubTitle } from '../../styles';
 
 export default ({ prop }) => {
+
+	const monthNames = ['JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO',
+		'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'
+	];
+
+	const d = new Date();
 	return (
 		<Container justify='flex-start' height={80} row>
 
@@ -13,7 +19,7 @@ export default ({ prop }) => {
 			<ContainerMax align='flex-end'>
 
 				<SubTitle color='whiteT' bold shadow height='60%' style={LogoImgae.shadowtext}>
-					CICLO NOVEMBRO
+					CICLO {monthNames[d.getMonth()]}
 				</SubTitle>
 			</ContainerMax>
 

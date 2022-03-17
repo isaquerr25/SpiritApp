@@ -4,7 +4,7 @@ import { View, Image, StyleSheet, Dimensions, Linking } from 'react-native';
 import {Container , Button, ButtonText, LogoImgae,Spacer ,VerticalSeparator, Input,SubTitle, Avatar, AvatarSize} from '../../styles';
 import logo_spirit from '../../assets/logo_spirit.png';
 import Icon  from 'react-native-vector-icons/FontAwesome';
-import { NameBackTop } from '../utils';
+import { NameBackTop, backPage } from '../utils';
 import { client } from '../../../App';
 import { useLogoutMutation } from '../../generated/graphql';
 const ConfigProfile = ({ navigation }) => {
@@ -16,7 +16,7 @@ const ConfigProfile = ({ navigation }) => {
 
 		Linking.openURL('https://www.spiritgoldforex.com/perguntas-frequentes');
 	};
-
+	backPage(navigation,'Dashboard');
 	const flush = async () =>{
 
 		await logoutGraph();

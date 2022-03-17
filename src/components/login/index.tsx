@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { View, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, TouchableOpacity, ScrollView, BackHandler } from 'react-native';
 
 import { Container, Button, ButtonText, LogoImgae, Spacer, Input, SubTitle } from '../../styles';
 import logo_spirit from '../../assets/logo_spirit.png';
@@ -8,7 +8,7 @@ import { useLoginAuthUserMutation } from '../../generated/graphql';
 import { Formik } from 'formik';
 import { SimplePopUp } from '../popup';
 import 'react-native-gesture-handler';
-import { NameBackTop } from '../utils';
+import { backPage, NameBackTop } from '../utils';
 
 
 
@@ -24,50 +24,50 @@ const Login = ({ navigation }) => {
 	const [qglLogin,] = useLoginAuthUserMutation();
 
 	const ScreenHeight = Dimensions.get('window').height;
-
+	backPage(navigation,'Home');
 	return (
+		<ScrollView>
+			<Container color='ground' padding={30} justify='flex-start' height={ScreenHeight} >
 
-		<Container color='ground' padding={30} justify='flex-start' height={ScreenHeight} >
-
-			{popup == statePopup.error &&
+				{popup == statePopup.error &&
 				<TouchableOpacity style={styles.button} onPress={() => setPopup(statePopup.disable)}>
 					<SimplePopUp type='error' msg={erroMsg} />
 				</TouchableOpacity>
-			}
+				}
 
-			{popup == statePopup.access &&
+				{popup == statePopup.access &&
 				<TouchableOpacity onPress={() => setPopup(statePopup.disable)}>
 					<SimplePopUp type='accest' msg='Loading' />
 				</TouchableOpacity>
-			}
-			<NameBackTop titleName='Home' navigation={navigation} destiny='Home' />
-			<Image
-				style={LogoImgae.logo}
-				source={logo_spirit}
-				resizeMode="contain"
-			/>
-			<Formik
-				initialValues={{ email: 'Test@test.cs', password: 'Testee@5' }}
-				// onSubmit={values => qglLogin(values)}
+				}
+				<NameBackTop titleName='Home' navigation={navigation} destiny='Home' />
+				<Image
+					style={LogoImgae.logo}
+					source={logo_spirit}
+					resizeMode="contain"
+				/>
+				<Formik
+					initialValues={{ email: 'Test@test.cs', password: 'Testee@5' }}
+					// onSubmit={values => qglLogin(values)}
 
-				onSubmit={async (values, { setSubmitting }) => {
-					setSubmitting(true);
-					// console.log(values);
+					onSubmit={async (values, { setSubmitting }) => {
+						setSubmitting(true);
+						// console.log(values);
 
-					const result = await qglLogin({ variables: values });
-					console.log(result);
-					const errors = result.data?.LoginAuthUser.errors;
-					console.log('errordasdasdass', errors);
-					console.log('errors', errors?.length == 0);
-					if (errors?.length == 0) {
-						navigation.navigate('Dashboard');
-						setPopup(statePopup.access);
-					}
-					else {
-						setPopup(statePopup.error);
-						setErroMsg(errors[0].message);
-						console.log('não logou');
-					}
+						const result = await qglLogin({ variables: values });
+						console.log(result);
+						const errors = result.data?.LoginAuthUser.errors;
+						console.log('errordasdasdass', errors);
+						console.log('errors', errors?.length == 0);
+						if (errors?.length == 0) {
+							navigation.navigate('Dashboard');
+							setPopup(statePopup.access);
+						}
+						else {
+							setPopup(statePopup.error);
+							setErroMsg(errors[0].message);
+							console.log('não logou');
+						}
 
 					// setSubmitting(false);
 					// if (errors) {
@@ -76,40 +76,41 @@ const Login = ({ navigation }) => {
 					// } else {
 					//   navigate('/', { replace: true });
 					// }
-				}}
-			>
+					}}
+				>
 
-				{({ handleChange, handleBlur, handleSubmit, values }) => (
-					<>
-						<Container justify="space-between" height={150}>
+					{({ handleChange, handleBlur, handleSubmit, values }) => (
+						<>
+							<Container justify="space-between" height={150}>
 
-							<Input
-								onChangeText={handleChange('email')}
-								onBlur={handleBlur('email')}
-								value={values.email}
-								placeholder='Email' />
+								<Input
+									onChangeText={handleChange('email')}
+									onBlur={handleBlur('email')}
+									value={values.email}
+									placeholder='Email' />
 
 
-							<Input
-								secureTextEntry={true}
-								onChangeText={handleChange('password')}
-								onBlur={handleBlur('password')}
-								value={values.password}
-								placeholder='Password' />
+								<Input
+									secureTextEntry={true}
+									onChangeText={handleChange('password')}
+									onBlur={handleBlur('password')}
+									value={values.password}
+									placeholder='Password' />
 
-							<SubTitle textL>Esqueci minha senha.</SubTitle>
+								<SubTitle textL>Esqueci minha senha.</SubTitle>
 
-						</Container>
+							</Container>
 
-						<Spacer height={40} />
+							<Spacer height={40} />
 
-						<Button onPress={handleSubmit} radius='15px' marginD={15}>
-							<ButtonText>Login</ButtonText>
-						</Button>
-					</>
-				)}
-			</Formik>
-		</Container>
+							<Button onPress={handleSubmit} radius='15px' marginD={15}>
+								<ButtonText>Login</ButtonText>
+							</Button>
+						</>
+					)}
+				</Formik>
+			</Container>
+		</ScrollView>
 	);
 };
 
